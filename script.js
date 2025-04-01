@@ -303,7 +303,7 @@ if (isMobile) {
         let offsetX = Math.min(Math.max(x, -maxOffset), maxOffset) * moveFactor;
         let offsetY = Math.min(Math.max(y, -maxOffset), maxOffset) * moveFactor;
 
-        bg.style.transform = translate(${offsetX}px, ${offsetY}px);
+        bg.style.transform = translate($,{offsetX},px, $,{offsetY},px);
     });
 } else {
     document.addEventListener("mousemove", (event) => {
@@ -313,6 +313,6 @@ if (isMobile) {
         let offsetX = (event.clientX - centerX) / 20; // Двигаем в зависимости от положения мыши
         let offsetY = (event.clientY - centerY) / 20;
 
-        bg.style.transform = translate(${offsetX}px, ${offsetY}px);
+        bg.style.transform = translate($,{offsetX},px, $,{offsetY},px);
     });
 }
