@@ -192,11 +192,11 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Toggle password clicked"); // Для отладки
             if (passwordField.type === 'password') {
                 passwordField.type = 'text';
-                eyeIcon.src = './ico/eye/white/open-eye-32px.png';  // Изображение с открытым глазом
+                eyeIcon.src = './ico/eye/cat-white/cat-open-eye-32px.png';  // Изображение с открытым глазом
                 eyeIcon.alt = 'Hide password';
             } else {
                 passwordField.type = 'password';
-                eyeIcon.src = './ico/eye/white/closed-eye-32px.png';  // Изображение с закрытым глазом
+                eyeIcon.src = './ico/eye/cat-white/cat-closed-eye-32px.png';  // Изображение с закрытым глазом
                 eyeIcon.alt = 'Show password';
             }
         });
@@ -283,36 +283,3 @@ document.getElementById("save-description").addEventListener("click", function (
     document.getElementById("description-input").style.display = "none";
     document.querySelector(".description-buttons").style.display = "none";
 });
-
-
-
-
-
-
-const bg = document.getElementById("background");
-let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-if (isMobile) {
-    window.addEventListener("deviceorientation", (event) => {
-        let x = event.gamma; // Наклон влево-вправо (-90, 90)
-        let y = event.beta;  // Наклон вперед-назад (-180, 180)
-
-        let maxOffset = 30; // Максимальный угол наклона
-        let moveFactor = -1.5; // Коэффициент движения
-
-        let offsetX = Math.min(Math.max(x, -maxOffset), maxOffset) * moveFactor;
-        let offsetY = Math.min(Math.max(y, -maxOffset), maxOffset) * moveFactor;
-
-        bg.style.transform = translate($,{offsetX},px, $,{offsetY},px);
-    });
-} else {
-    document.addEventListener("mousemove", (event) => {
-        let centerX = window.innerWidth / 2;
-        let centerY = window.innerHeight / 2;
-
-        let offsetX = (event.clientX - centerX) / 20; // Двигаем в зависимости от положения мыши
-        let offsetY = (event.clientY - centerY) / 20;
-
-        bg.style.transform = translate($,{offsetX},px, $,{offsetY},px);
-    });
-}
