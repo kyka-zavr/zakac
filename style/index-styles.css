@@ -1,4 +1,4 @@
-/* Основной фон страницы */
+  /* Основной фон страницы */
 body {
     font-family: 'Source Code Pro', monospace;
     color: #f0f8ff; /* светлый текст */
@@ -9,9 +9,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #000000; /* черный фон */
-    background-image: url(./img/background.png);
+    background: url('./img/background.png') repeat-y;
 }
+
 
 /* Фон за контентом */
 .background {
