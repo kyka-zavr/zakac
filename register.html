@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style/register-styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div class="register-box">
+            <h2>Регистрация</h2>
+            <input type="email" id="register-email" class="register-email" placeholder="Gmail" required>
+            <br>
+            <input type="text" id="register-username" class="register-username" placeholder="Ник" required>
+            <br>
+            <input type="password" id="register-password" class="register-password" placeholder="Пароль" required>
+            <br>
+            <input type="password" id="register-confirm" class="register-confirm" placeholder="Подтвердите пароль" required>
+            <br>
+            <button class="register-btn" onclick="register()">
+                <img src="./ico/logout & sign-up & register/white-register-32px.png"  alt="Зарегистрироваться" >
+            </button>
+
+            <p>Уже есть аккаунт? <a href="index.html">Тогда войдите в него</a></p>
+        </div>
+    </div>
+</body>
+</html>

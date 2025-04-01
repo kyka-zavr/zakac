@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "email": "createrkir@gmail.com",
+      "username": "kyka_zavr",
+      "password": "124358",
+      "avatar": "kyka_zavr.jpg",
+      "description": "Нет описания"
+    },
+    {
+      "email": "kirill124358@gmial.com",
+      "username": "kyka-zavr",
+      "password": "124358",
+      "avatar": "kyka-zavr.jpg",
+      "description": "привет меня зовут kyka ! "
+    },
+    {
+      "email": "kk4970198@gmail.com",
+      "username": "creater6661",
+      "password": "124358",
+      "avatar": "",
+      "description": "вавававав"
+    },
+    {
+      "email": "pit6878@gmail.com",
+      "username": "_CeZeHa_",
+      "password": "h0J18jYRzG_g9TL",
+      "avatar": "_CeZeHa_.jpg",
+      "description": "Нет описания"
+    }
+  ]
+}

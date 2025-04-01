@@ -1,0 +1,85 @@
+body {
+    font-family: 'Source Code Pro', monospace;
+    color: azure;
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+}
+
+#background {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 120vw; /* Делаем фон больше экрана */
+    height: 120vh;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    transition: transform 0.05s linear;
+    z-index: -1; /* Отправляем фон назад */
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+
+.login-box {
+    background: rgba(0, 0, 0, 0.37);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+                rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+                rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+                rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+                rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.input-group .icon {
+    padding: 5px;
+}
+
+input {
+    border: none;
+    background: none;
+    color: white;
+    outline: none;
+    flex: 1;
+    padding: 10px;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.sign-up {
+    margin-top: 10px;
+}
+
+.txtsingin {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.301);
+    box-shadow: 0 0 10px rgba(0, 255, 42, 0.8);
+}
