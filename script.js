@@ -290,26 +290,29 @@ document.getElementById("save-description").addEventListener("click", function (
 
 
 const bg = document.getElementById("background");
-const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+let isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 
 if (isMobile) {
     window.addEventListener("deviceorientation", (event) => {
-        let x = event.gamma || 0;
-        let y = event.beta || 0;
+        let x = event.gamma;
+        let y = event.beta;
 
-        let maxOffset = 20; // Максимальный сдвиг
+        let maxOffset = 30;
         let moveFactor = 1.5;
 
-        let offsetX = Math.min(Math.max(x, -30), 30) * moveFactor;
-        let offsetY = Math.min(Math.max(y, -30), 30) * moveFactor;
+        let offsetX = Math.min(Math.max(x, -maxOffset), maxOffset) * moveFactor;
+        let offsetY = Math.min(Math.max(y, -maxOffset), maxOffset) * moveFactor;
 
-        bg.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+        bg.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     });
 } else {
     document.addEventListener("mousemove", (event) => {
-        let xPercent = (event.clientX / window.innerWidth - 0.5) * 40;
-        let yPercent = (event.clientY / window.innerHeight - 0.5) * 40;
+        let centerX = window.innerWidth / 2;
+        let centerY = window.innerHeight / 2;
 
-        bg.style.transform = `translate(calc(-50% + ${xPercent}px), calc(-50% + ${yPercent}px))`;
+        let offsetX = (event.clientX - centerX) / 20;
+        let offsetY = (event.clientY - centerY) / 20;
+
+        bg.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
     });
 }
