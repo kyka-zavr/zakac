@@ -9,9 +9,23 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: url('./img/background.png') repeat-y;
+    background: url('./img/background.png') ;
 }
 
+@media (max-width: 768px) {
+    body {
+        font-family: 'Source Code Pro', monospace;
+        color: #f0f8ff; /* светлый текст */
+        margin: 0;
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: url('./img/35272.png') ;
+    }
+}
 
 /* Фон за контентом */
 .background {
