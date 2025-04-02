@@ -12,12 +12,6 @@ body {
     background: url('./img/background.png') ;
 }
 
-@media (max-width: 768px) {
-    .content {
-        width: 70%;
-        height: 70%;
-    }
-}
 
 /* Фон за контентом */
 .background {
@@ -34,8 +28,10 @@ body {
 .content {
     font-family: 'Source Code Pro', monospace;
     position: fixed;
-    width: 100%;
-    height: 100%;
+    width: 40vw; /* Ограничиваем ширину до 40% экрана */
+    max-width: 600px; /* Максимальная ширина */
+    height: auto; /* Авто-высота */
+    max-height: 80vh; /* Ограничение высоты */
     z-index: 1;
     text-align: center;
     color: #f0f8ff; /* светлый текст */
@@ -47,6 +43,8 @@ body {
 
 /* Блок для логина */
 .login-box {
+    max-width: 500px; /* Максимальная ширина */
+    width: 90%; /* 90% ширины экрана, но не больше max-width */
     backdrop-filter: blur(2px); 
     background: rgba(0, 0, 0, 0.555); /* темный фон с прозрачностью */
     padding: 20px;
@@ -116,4 +114,13 @@ button {
 
 a{
     color: azure;
+}
+
+
+@media (max-width: 768px) {
+    .content {
+        width: 80%; /* На мобильных шире */
+        max-width: 90%;
+        height: auto;
+    }
 }
