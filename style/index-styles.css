@@ -95,7 +95,7 @@ button {
 
 /* Ссылка для регистрации */
 .sign-up {
-    padding: 10px 20px;
+    padding: 10px 10px;
     background: rgba(0, 0, 0, 0.301);
     border-radius: 10px;
     margin-top: 10px;
@@ -115,12 +115,17 @@ a{
 
 @media (max-width: 768px) {
     .login-box {
-        height: 100px;
-        width: 100px;
+        height: 260px;
+        width: 260px;
     }
 
     #login-form {
         height: auto;
         width: auto;
+    }
+
+    img {
+        height: 20px;
+        width: 20px;
     }
 }
