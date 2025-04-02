@@ -128,4 +128,41 @@ a{
         height: 20px;
         width: 20px;
     }
+    
+    #toggle-password {
+        position: fixed;
+        padding-left: 210px; /* Подберите нужное смещение */
+    }
+
+}
+
+@media (max-height: 1429px) {
+    .login-box {
+        height: 260px;
+        width: 260px;
+    }
+
+    #login-form {
+        height: auto;
+        width: auto;
+    }
+
+    img {
+        height: 20px;
+        width: 20px;
+    }
+
+    .sign-up {
+        padding: 5px 5px;
+    }
+
+    .sign-up-ico {
+        height: 15px;
+        width: 15px;
+    }
+
+    #toggle-password {
+        position: fixed;
+        padding-left: 210px; /* Подберите нужное смещение */
+    }
 }
