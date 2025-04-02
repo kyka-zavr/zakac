@@ -12,17 +12,18 @@ html, body {
     background: url('./img/background.png') repeat;
     box-sizing: border-box; /* Исправляем ширину */
     background-color: rgba(255, 255, 255, 0.123);
+    scroll-behavior: smooth;
 }
 
 
-.head {
+.tab {
     border-radius: 1px 1px 20px 20px;
     position: fixed;
     top: -1px;
     backdrop-filter: blur(2px); 
-    background: rgba(0, 0, 0, 0.555); /* темный фон с прозрачностью */
+    background: rgba(0, 0, 0, 0.685); /* темный фон с прозрачностью */
     -webkit-backdrop-filter: blur(5.4px);
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     height: 60px;
     width: 100%;
 }
@@ -55,16 +56,10 @@ html, body {
 .bottom {
     position: absolute;
     top: 5000px;
-    display: flex;
     height: 10vh;
-    width: 100%; /* Убираем 99vw */
-}
-
-.bottom-p {
-    border-radius: 10px 10px 1px 1px;
+    width: 100%;
+    border-radius: 20px 20px 1px 1px;
     background: black;
-    height: 100px;
-    width: 100%; /* Убираем 99vw */
 }
 
 button {
@@ -75,6 +70,18 @@ button {
 }
 
 img {
+    height: 40px;
+    width: 40px;
+}
+
+.aaaa {
+    cursor: pointer;
+    color: rgb(255, 0, 0);
+    align-items: center;
+    text-align: center;
+    position: fixed;
+    top: 100px;
+    right: 95px;
     height: 40px;
     width: 40px;
 }

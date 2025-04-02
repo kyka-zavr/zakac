@@ -283,3 +283,9 @@ document.getElementById("save-description").addEventListener("click", function (
     document.getElementById("description-input").style.display = "none";
     document.querySelector(".description-buttons").style.display = "none";
 });
+
+
+document.querySelector(".aaaa").addEventListener("click", function(e) {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+});
