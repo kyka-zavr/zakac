@@ -99,9 +99,9 @@ function loadAccount() {
     const avatarImg = document.getElementById("account-avatar");
     if (user.avatar) {
         avatarImg.src = `/avatars/${user.avatar}`;
-    } //else {
-    //     avatarImg.src = "./ico/user/white-user-32px.png";
-    // }
+    } else {
+        avatarImg.src = "ico/user/white/white-user-32px.png";
+    }
 }
 
 // Загрузка аватарки
