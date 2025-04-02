@@ -14,17 +14,8 @@ body {
 
 @media (max-width: 768px) {
     .content {
-        font-family: 'Source Code Pro', monospace;
-        position: fixed;
         width: 70%;
         height: 70%;
-        z-index: 1;
-        text-align: center;
-        color: #f0f8ff; /* светлый текст */
-        background: rgb(0, 0, 0); /* черный фон */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 }
 
