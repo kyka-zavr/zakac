@@ -38,7 +38,6 @@ body {
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
 /* Блок для логина */
 .login-box {
     backdrop-filter: blur(2px); 
@@ -95,7 +94,7 @@ button {
 
 /* Ссылка для регистрации */
 .sign-up {
-    padding: 10px 10px;
+    padding: 10px 40px;
     background: rgba(0, 0, 0, 0.301);
     border-radius: 10px;
     margin-top: 10px;
@@ -134,13 +133,15 @@ a{
         padding-left: 210px; /* Подберите нужное смещение */
     }
 
+
+
 }
 
-@media (max-height: 1429px) {
+@media screen and (max-width: 1520px) and (max-height: 720px) and (orientation: landscape) {
     .login-box {
-        height: 250px;
-        width: 260px;
-        padding-top: 1px;
+        padding-right: 80px;
+        height: 260px;
+        width: 400px;
     }
 
     #login-form {
@@ -152,18 +153,16 @@ a{
         height: 20px;
         width: 20px;
     }
-
-    .sign-up {
-        padding: 5px 5px;
-    }
-
-    .sign-up-ico {
-        height: 15px;
-        width: 15px;
-    }
-
+    
     #toggle-password {
         position: fixed;
-        padding-left: 210px; /* Подберите нужное смещение */
+        margin-left: 350px; /* Подберите нужное смещение */
+    }
+
+    .sign-up {
+        position: fixed;
+        margin-left: 220px;
+        margin-top: -110px;
+        padding: 40px 10px;
     }
 }
