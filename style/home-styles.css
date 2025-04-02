@@ -1,0 +1,36 @@
+body {
+    font-family: 'Source Code Pro', monospace;
+    color: #f0f8ff; /* светлый текст */
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('./img/background.png') ;
+}
+
+.background {
+    position: fixed;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.123);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+    font-family: 'Source Code Pro', monospace;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    text-align: center;
+    color: #f0f8ff; /* светлый текст */
+    background: rgb(0, 0, 0); /* черный фон */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
