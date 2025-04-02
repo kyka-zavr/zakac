@@ -138,8 +138,9 @@ a{
 
 @media (max-height: 1429px) {
     .login-box {
-        height: 260px;
+        height: 250px;
         width: 260px;
+        padding-top: 1px;
     }
 
     #login-form {
