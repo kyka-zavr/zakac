@@ -1,0 +1,161 @@
+  /* Основной фон страницы */
+  body {
+    font-family: 'Source Code Pro', monospace;
+    color: #f0f8ff; /* светлый текст */
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('./img/background.png') ;
+}
+
+
+/* Фон за контентом */
+.background {
+    position: fixed;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+    border-radius: 16px;
+    background-color: rgba(255, 255, 255, 0.123);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Основной контейнер контента */
+.content {
+    font-family: 'Source Code Pro', monospace;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    text-align: center;
+    color: #f0f8ff; /* светлый текст */
+    background: rgb(0, 0, 0); /* черный фон */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.register-box {
+    backdrop-filter: blur(2px); 
+    background: rgba(0, 0, 0, 0.555); /* темный фон с прозрачностью */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, 
+                rgba(0, 0, 0, 0.12) 0px -12px 30px, 
+                rgba(0, 0, 0, 0.12) 0px 4px 6px, 
+                rgba(0, 0, 0, 0.17) 0px 12px 13px, 
+                rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.input-group {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    background: rgba(255, 255, 255, 0.212); /* полупрозрачный фон */
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.input-group .icon {
+    color: azure;
+    padding: 5px;
+}
+
+/* Стиль для текстовых полей */
+input {
+    
+    border: none;
+    background: none;
+    color: #f0f8ff; /* светлый текст */
+    outline: none;
+    flex: 1;
+    padding: 10px;
+}
+
+input::placeholder
+{
+    color: azure;
+}
+
+/* Кнопки */
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #a9a9a9; /* светлый серый для кнопок */
+}
+
+.register-btn {
+    padding: 10px 40px;
+    background: rgba(0, 0, 0, 0.301);
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.txtreg {
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.301);
+    box-shadow: 0 0 10px rgb(0, 0, 0);
+}
+
+a{
+    color: azure;
+}
+
+@media (max-width: 768px) {
+
+
+    #login-form {
+        height: auto;
+        width: auto;
+    }
+
+    img {
+        height: 20px;
+        width: 20px;
+    }
+    
+    #toggle-password {
+        position: fixed;
+        padding-left: 210px; /* Подберите нужное смещение */
+    }
+
+
+
+}
+
+@media screen and (max-width: 1520px) and (max-height: 720px) and (orientation: landscape) {
+    .register-box {
+        padding-right: 80px;
+        height: 260px;
+        width: 400px;
+    }
+
+    #login-form {
+        height: auto;
+        width: auto;
+    }
+
+    img {
+        height: 20px;
+        width: 20px;
+    }
+    
+    #toggle-password {
+        position: fixed;
+        margin-left: 350px; /* Подберите нужное смещение */
+    }
+
+    .register-btn {
+        position: fixed;
+        margin-left: 220px;
+        margin-top: -110px;
+        padding: 40px 10px;
+    }
+}

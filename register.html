@@ -10,21 +10,44 @@
 </head>
 <body>
     <div class="container">
+
         <div class="register-box">
-            <h2>Регистрация</h2>
-            <input type="email" id="register-email" class="register-email" placeholder="Gmail" required>
-            <br>
-            <input type="text" id="register-username" class="register-username" placeholder="Ник" required>
-            <br>
-            <input type="password" id="register-password" class="register-password" placeholder="Пароль" required>
-            <br>
-            <input type="password" id="register-confirm" class="register-confirm" placeholder="Подтвердите пароль" required>
-            <br>
+
+            <h2 class="txtreg">Регистрация</h2>
+
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="./ico/gmail/white-animal/animal-gmail-32px.png" />
+                    </div>
+                    <input type="email" id="register-email" class="register-email" placeholder="Gmail" required>
+                </div>
+                
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="./ico/user/dog-white/dog-white-user-32px.png" />
+                    </div>
+                    <input type="text" id="register-username" class="register-username" placeholder="Ник" required>
+                </div>
+                
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="./ico/key/key-white/white-key-32px.png" />
+                    </div>
+                    <input type="password" id="register-password" class="register-password" placeholder="Пароль" required>
+                </div>
+
+                <div class="input-group">
+                    <div class="icon">
+                        <img src="./ico/key/2key-white/2white-key-32px.png" />
+                    </div>
+                    <input type="password" id="register-confirm" class="register-confirm" placeholder="Подтвердите пароль" required>
+                </div>
+
             <button class="register-btn" onclick="register()">
                 <img src="./ico/logout & sign-up & register/white-register-32px.png"  alt="Зарегистрироваться" >
             </button>
 
-            <p>Уже есть аккаунт? <a href="index.html">Тогда войдите в него</a></p>
+            <p><a href="index.html">Войти</a></p>
         </div>
     </div>
 </body>
