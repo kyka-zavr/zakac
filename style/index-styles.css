@@ -130,7 +130,7 @@ a{
     
     #toggle-password {
         position: fixed;
-        padding-left: 210px; /* Подберите нужное смещение */
+        margin-left: 210px; /* Подберите нужное смещение */
     }
 
 
