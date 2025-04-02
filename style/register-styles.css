@@ -131,6 +131,10 @@ a{
 }
 
 @media screen and (max-width: 1520px) and (max-height: 720px) and (orientation: landscape) {
+
+    .input-group {
+        margin-top: -5px;
+    }
     .txtreg {
         margin-top: -5px;
     }
@@ -159,7 +163,12 @@ a{
     .register-btn {
         position: fixed;
         margin-left: 220px;
-        margin-top: -110px;
+        margin-top: -205px;
         padding: 40px 10px;
+    }
+
+    p {
+        margin-left: 415px;
+        margin-top: -70px;
     }
 }
