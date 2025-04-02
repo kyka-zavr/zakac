@@ -115,8 +115,8 @@ a{
 
 @media (max-width: 768px) {
     .login-box {
-        height: 300px;
-        width: 300px;
+        height: 100px;
+        width: 100px;
     }
 
     #login-form {
