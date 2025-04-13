@@ -223,26 +223,21 @@ input::placeholder {
 /* Адаптивность для мобильных устройств (max-width: 768px) */
 @media (max-width: 768px) {
     .login-box {
-        height: 260px;
-        width: 260px;
         padding: 20px;
-        max-width: none; /* Убираем max-width для точного соответствия */
-    }
-
-    #login-form {
-        height: auto;
-        width: auto;
-    }
-
-    .input-group .icon img,
-    #toggle-password img,
-    .sign-up img {
-        height: 20px;
-        width: 20px;
+        max-width: 300px;
     }
 
     .txtsingin {
         font-size: 1.5rem;
+    }
+
+    .input-group {
+        margin: 10px 0;
+    }
+
+    .input-group .icon img {
+        width: 24px;
+        height: 24px;
     }
 
     input {
@@ -251,16 +246,21 @@ input::placeholder {
     }
 
     #toggle-password {
-        position: absolute; /* Оставляем absolute, как в изначальном дизайне */
-        right: 10px; /* Смещение для кнопки переключения пароля */
+        right: 8px;
+    }
+
+    #toggle-password img {
+        width: 24px;
+        height: 24px;
     }
 
     .sign-up {
         padding: 10px 30px;
     }
 
-    .reg {
-        margin-top: 15px;
+    .sign-up img {
+        width: 24px;
+        height: 24px;
     }
 }
 

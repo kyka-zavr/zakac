@@ -225,27 +225,21 @@ input::placeholder {
 /* Адаптивность для мобильных устройств (max-width: 768px) */
 @media (max-width: 768px) {
     .register-box {
-        height: 320px; /* Увеличиваем высоту, так как больше полей */
-        width: 260px;
         padding: 20px;
-        max-width: none;
-    }
-
-    #register-form {
-        height: auto;
-        width: auto;
-    }
-
-    .input-group .icon img,
-    #toggle-password img,
-    #toggle-confirm-password img,
-    .register-btn img {
-        height: 20px;
-        width: 20px;
+        max-width: 300px;
     }
 
     .txtreg {
         font-size: 1.5rem;
+    }
+
+    .input-group {
+        margin: 10px 0;
+    }
+
+    .input-group .icon img {
+        width: 24px;
+        height: 24px;
     }
 
     input {
@@ -255,16 +249,22 @@ input::placeholder {
 
     #toggle-password,
     #toggle-confirm-password {
-        position: absolute;
-        right: 10px;
+        right: 8px;
+    }
+
+    #toggle-password img,
+    #toggle-confirm-password img {
+        width: 24px;
+        height: 24px;
     }
 
     .register-btn {
         padding: 10px 30px;
     }
 
-    .sign {
-        margin-top: 15px;
+    .register-btn img {
+        width: 24px;
+        height: 24px;
     }
 }
 
