@@ -222,24 +222,30 @@ input::placeholder {
     color: #f0f8ff;
 }
 
-/* Адаптивность */
+/* Адаптивность для мобильных устройств (max-width: 768px) */
 @media (max-width: 768px) {
     .register-box {
+        height: 320px; /* Увеличиваем высоту, так как больше полей */
+        width: 260px;
         padding: 20px;
-        max-width: 300px;
+        max-width: none;
+    }
+
+    #register-form {
+        height: auto;
+        width: auto;
+    }
+
+    .input-group .icon img,
+    #toggle-password img,
+    #toggle-confirm-password img,
+    .register-btn img {
+        height: 20px;
+        width: 20px;
     }
 
     .txtreg {
         font-size: 1.5rem;
-    }
-
-    .input-group {
-        margin: 10px 0;
-    }
-
-    .input-group .icon img {
-        width: 24px;
-        height: 24px;
     }
 
     input {
@@ -249,53 +255,81 @@ input::placeholder {
 
     #toggle-password,
     #toggle-confirm-password {
-        right: 8px;
-    }
-
-    #toggle-password img,
-    #toggle-confirm-password img {
-        width: 24px;
-        height: 24px;
+        position: absolute;
+        right: 10px;
     }
 
     .register-btn {
         padding: 10px 30px;
     }
 
-    .register-btn img {
-        width: 24px;
-        height: 24px;
+    .sign {
+        margin-top: 15px;
     }
 }
 
+/* Адаптивность для устройств с низким разрешением в альбомной ориентации */
 @media screen and (max-width: 1520px) and (max-height: 720px) and (orientation: landscape) {
     .register-box {
+        margin-top: -50px;
         padding: 20px 40px;
-        max-width: 400px;
-        margin-top: 0;
+        padding-right: 80px;
+        height: 260px;
+        width: 400px;
+        max-width: none;
+    }
+
+    #register-form {
+        height: auto;
+        width: auto;
     }
 
     .input-group {
         margin: 10px 0;
+        margin-top: -5px;
     }
 
     .txtreg {
         margin-bottom: 15px;
+        margin-top: -5px;
+    }
+
+    .input-group .icon img,
+    #toggle-password img,
+    #toggle-confirm-password img,
+    .register-btn img {
+        height: 20px;
+        width: 20px;
+    }
+
+    input {
+        padding: 8px;
+        font-size: 0.9rem;
     }
 
     #toggle-password,
     #toggle-confirm-password {
+        position: absolute;
         right: 10px;
     }
 
     .register-btn {
-        position: static;
-        margin-top: 15px;
-        padding: 10px 40px;
+        position: fixed;
+        margin-left: 220px;
+        margin-top: -205px;
+        padding: 40px 10px;
     }
 
     .sign {
-        margin-top: 15px;
-        margin-left: 0;
+        margin-left: 415px;
+        margin-top: -70px;
     }
+
+    .sign p {
+        margin-left: 0;
+        margin-top: 0;
+        text-align: center;
+    }
+
+
 }
