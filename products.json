@@ -1,0 +1,14 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "test",
+      "description": "test description",
+      "cover": "1744540720909-801510878.jpg",
+      "price": 50,
+      "stock": 8000,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    }
+  ]
+}

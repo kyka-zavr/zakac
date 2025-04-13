@@ -5,49 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Главная</title>
     <link rel="stylesheet" href="./style/home-styles.css">
-    <script src="script.js"></script>
-</head>
 
-    <div class="bottom" >
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <header class="tab" id="tab">
+        <div class="nav-buttons">
+            <button class="account-btn" onclick="location.href='account.html'" aria-label="Аккаунт">
+                <img id="account-avatar" class="account-avatar" src="./ico/user/dog-white/dog-white-user-512px.png" alt="Аватар пользователя">
+            </button>
+            <button class="basket-btn" aria-label="Корзина">
+                <img src="./ico/cart/cart/cart-white-512px.png" alt="Корзина">
+            </button>
+            <button id="add-product-btn" class="add-product-btn" aria-label="Добавить товар" style="display: none;">
+                <img src="./ico/plus/white-plus-512px.png" alt="Добавить">
+            </button>
+        </div>
+    </header>
+
+    <!-- Основной контент -->
+    <main class="container">
+        <!-- Приветственная секция -->
+        <section class="hero-section">
+            <h1>Добро пожаловать!</h1>
+            <p>Это твой стильный магазин. Ознакомьтесь с товарами ниже.</p>
+        </section>
+
+        <!-- Секция товаров -->
+        <section class="products-section">
+            <h2>Товары</h2>
+            <div id="products-grid" class="products-grid">
+                <!-- Товары будут добавляться динамически через JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Модальное окно для создания/редактирования товара -->
+    <div id="product-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title">Добавить новый товар</h2>
+            <form id="product-form">
+                <label for="product-title">Название:</label>
+                <input type="text" id="product-title" required>
+
+                <label for="product-description">Описание:</label>
+                <textarea id="product-description" required></textarea>
+
+                <label for="product-cover">Обложка:</label>
+                <input type="file" id="product-cover" accept="image/*">
+
+                <label for="product-price">Цена (₽):</label>
+                <input type="number" id="product-price" min="0" required>
+
+                <label for="product-stock">Количество:</label>
+                <input type="number" id="product-stock" min="0" required>
+
+                <div class="modal-buttons">
+                    <button type="button" id="cancel-product">Отмена</button>
+                    <button type="submit" id="submit-product">Опубликовать</button>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <!-- Кнопка "Наверх" -->
+    <span onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="scroll-top-btn" aria-label="Наверх">^</span>
 
+    <!-- Футер -->
+    <footer class="bottom">
+        <p>© 2025 Твой магазин. Все права защищены.</p>
+    </footer>
 
+    <!-- Фоновый слой -->
     <div class="background"></div>
-<body>
-    
-      
-
-        <div class="tab" id="tab">
-            <button onclick="location.href='account.html'" class="account-btn" id="account-btn" alt="account-btn" >
-                <img id="account-avatar" class="account-avatar" src="./ico/user/white/white-user-512px.png" alt="account-avatar">
-            </button>
-
-            <button class="basket-btn" id="basket-btn" >
-                <img src="./ico/cart/cart/cart-white-512px.png" alt="cart">
-            </button>
-         </div>
-
-
-
-
-        <div class="container"></div>
-
-        <span onclick="window.scroll(0,0);" class="aaaa">^^^^</span>
+    <script defer src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

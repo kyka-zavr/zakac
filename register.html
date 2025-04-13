@@ -6,50 +6,55 @@
     <title>Регистрация</title>
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style/register-styles.css">
-    <script src="script.js" defer></script>
 </head>
 <body>
     <div class="background"></div>
     <div class="container">
-
         <div class="register-box">
-
             <h2 class="txtreg">Регистрация</h2>
-
+            <form id="register-form">
                 <div class="input-group">
                     <div class="icon">
-                        <img src="./ico/gmail/white-animal/animal-gmail-32px.png" />
+                        <img src="./ico/gmail/white-animal/animal-gmail-32px.png" alt="Gmail icon" />
                     </div>
                     <input type="email" id="register-email" class="register-email" placeholder="Gmail" required>
                 </div>
                 
                 <div class="input-group">
                     <div class="icon">
-                        <img src="./ico/user/dog-white/dog-white-user-32px.png" />
+                        <img src="./ico/user/dog-white/dog-white-user-32px.png" alt="Username icon" />
                     </div>
                     <input type="text" id="register-username" class="register-username" placeholder="Ник" required>
                 </div>
                 
                 <div class="input-group">
                     <div class="icon">
-                        <img src="./ico/key/key-white/white-key-32px.png" />
+                        <img src="./ico/key/key-white/white-key-32px.png" alt="Password icon" />
                     </div>
                     <input type="password" id="register-password" class="register-password" placeholder="Пароль" required>
+                    <button type="button" id="toggle-password">
+                        <img src="./ico/eye/cat-white/cat-closed-eye-32px.png" alt="Show password" id="eye-icon-password" />
+                    </button>
                 </div>
 
                 <div class="input-group">
                     <div class="icon">
-                        <img src="./ico/key/2key-white/2white-key-32px.png" />
+                        <img src="./ico/key/2key-white/2white-key-32px.png" alt="Confirm password icon" />
                     </div>
                     <input type="password" id="register-confirm" class="register-confirm" placeholder="Подтвердите пароль" required>
+                    <button type="button" id="toggle-confirm-password">
+                        <img src="./ico/eye/cat-white/cat-closed-eye-32px.png" alt="Show confirm password" id="eye-icon-confirm" />
+                    </button>
                 </div>
 
-            <button class="register-btn" onclick="register()">
-                <img src="./ico/logout & sign-up & register/white-register-32px.png"  alt="Зарегистрироваться" >
-            </button>
+                <button type="submit" class="register-btn">
+                    <img src="./ico/logout & sign-up & register/black-register-32px.png" alt="Зарегистрироваться">
+                </button>
+            </form>
 
             <p class="sign"><a href="index.html">Войти?</a></p>
         </div>
     </div>
+    <script src="script.js" defer></script>
 </body>
 </html>
