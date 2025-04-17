@@ -116,16 +116,12 @@ document.addEventListener('scroll', () => {
 });
 
 // Анимация ухода со страницы
-window.addEventListener('beforeunload', (e) => {
+window.addEventListener('beforeunload', () => {
     const tab = document.querySelector('.tab');
     const products = document.querySelectorAll('.product-card');
     const accountBtn = document.querySelector('.account-btn');
     const basketBtn = document.querySelector('.basket-btn');
     const addProductBtn = document.querySelector('.add-product-btn');
-
-    // Отменяем стандартное поведение, чтобы анимация успела проиграться
-    e.preventDefault();
-    e.returnValue = '';
 
     // Исчезновение товаров лесенкой (в обратном порядке)
     if (products.length > 0) {
@@ -133,7 +129,7 @@ window.addEventListener('beforeunload', (e) => {
             setTimeout(() => {
                 product.style.opacity = '0';
                 product.style.transform = window.innerWidth <= 768 ? 'translateX(-100%)' : 'opacity(0)';
-            }, (products.length - 1 - index) * 200);
+            }, (products.length - 1 - index) * 100);
         });
     }
 
@@ -143,31 +139,26 @@ window.addEventListener('beforeunload', (e) => {
             addProductBtn.style.transform = 'translateX(-100px)';
             addProductBtn.style.opacity = '0';
         }
-    }, products.length * 200);
+    }, products.length * 100);
 
     setTimeout(() => {
         if (basketBtn) {
             basketBtn.style.transform = 'translateX(-100px)';
             basketBtn.style.opacity = '0';
         }
-    }, products.length * 200 + 200);
+    }, products.length * 100 + 100);
 
     setTimeout(() => {
         if (accountBtn) {
             accountBtn.style.transform = 'translateX(-100px)';
             accountBtn.style.opacity = '0';
         }
-    }, products.length * 200 + 400);
+    }, products.length * 100 + 200);
 
     // Исчезновение tab
     setTimeout(() => {
         if (tab) {
             tab.classList.add('hidden');
         }
-    }, products.length * 200 + 600);
-
-    // Задержка, чтобы анимации успели проиграться
-    setTimeout(() => {
-        window.removeEventListener('beforeunload', this);
-    }, products.length * 200 + 1100);
+    }, products.length * 100 + 300);
 });
