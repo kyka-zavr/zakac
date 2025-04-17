@@ -9,6 +9,96 @@
       "stock": 8000,
       "createdBy": "kyka_zavr",
       "wishedBy": []
+    },
+    {
+      "id": 2,
+      "title": "2",
+      "description": "2",
+      "cover": "",
+      "price": 2,
+      "stock": 2,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 3,
+      "title": "3",
+      "description": "3",
+      "cover": "",
+      "price": 3,
+      "stock": 3,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 4,
+      "title": "4",
+      "description": "4",
+      "cover": "",
+      "price": 4,
+      "stock": 4,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 5,
+      "title": "5",
+      "description": "5",
+      "cover": "",
+      "price": 5,
+      "stock": 5,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 6,
+      "title": "6",
+      "description": "6",
+      "cover": "",
+      "price": 6,
+      "stock": 6,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 7,
+      "title": "7",
+      "description": "7",
+      "cover": "",
+      "price": 7,
+      "stock": 7,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 8,
+      "title": "8",
+      "description": "8",
+      "cover": "",
+      "price": 8,
+      "stock": 8,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 9,
+      "title": "9",
+      "description": "9",
+      "cover": "",
+      "price": 9,
+      "stock": 9,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
+    },
+    {
+      "id": 10,
+      "title": "10",
+      "description": "10",
+      "cover": "",
+      "price": 10,
+      "stock": 10,
+      "createdBy": "kyka_zavr",
+      "wishedBy": []
     }
   ]
 }

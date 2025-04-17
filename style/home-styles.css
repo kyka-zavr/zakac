@@ -9,7 +9,8 @@ html, body {
   font-family: 'Source Code Pro', monospace;
   color: #f0f8ff;
   width: 100%;
-  background: url('./img/background.png') repeat, #1a1a1a;
+  background: url('./img/background.png') repeat fixed center center, #1a1a1a;
+  background-size: cover;
   scroll-behavior: smooth;
   overflow-x: hidden;
 }
@@ -47,6 +48,15 @@ img {
   align-items: center;
   justify-content: flex-end;
   padding: 0 20px;
+  transition: transform 0.3s ease, opacity 0.3s ease; /* Плавное скрытие/появление */
+  transform: translateY(0); /* Начальное положение */
+  opacity: 1;
+}
+
+/* Скрытие навигационной панели */
+.tab.hidden {
+  transform: translateY(-100%); /* Сдвигаем панель вверх за пределы экрана */
+  opacity: 0;
 }
 
 /* Кнопки навигации */
@@ -129,7 +139,6 @@ img {
 /* Секция товаров */
 .products-section {
   width: 100%;
-  max-width: 1000px;
   margin-bottom: 80px;
 }
 
@@ -143,45 +152,81 @@ img {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
+  width: 100%;
+  padding: 0 10px;
 }
 
 .product-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Эффект свечения при наведении */
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.1));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.product-card:hover::before {
+  opacity: 1;
 }
 
 .product-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.15);
 }
 
 .product-card img {
   width: 100%;
   height: 150px;
-  object-fit: cover; /* Обложки товаров крупнее, чем 40px */
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.05);
 }
 
 .product-card h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  color: #f0f8ff;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 .product-card p {
   font-size: 1rem;
   color: #ccc;
   margin-bottom: 15px;
+  line-height: 1.4;
 }
 
 .product-card .price {
   display: block;
   font-size: 1.2rem;
-  color: #f0f8ff;
+  color: #00e676;
   margin-bottom: 15px;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .product-card .product-buttons {
@@ -199,11 +244,18 @@ img {
   border-radius: 8px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .product-card button:hover {
   background: #7f39fb;
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.product-card button:active {
+  transform: scale(0.95);
 }
 
 .product-card button.delete-btn {
@@ -338,9 +390,19 @@ img {
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background 0.3s ease;
   text-decoration: none;
   z-index: 1000;
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0) scale(1);
+}
+
+/* Класс для скрытия кнопки с анимацией */
+.scroll-top-btn.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(80px) scale(0.5);
 }
 
 .scroll-top-btn::before {
@@ -357,7 +419,7 @@ img {
 
 .scroll-top-btn:hover {
   background: #333;
-  transform: translateY(-2px);
+  transform: translateX(0) scale(1.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -367,7 +429,7 @@ img {
 }
 
 .scroll-top-btn:active {
-  transform: translateY(0);
+  transform: translateX(0) scale(0.95);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -405,69 +467,271 @@ img {
   }
 }
 
-/* Адаптивность */
+/* Адаптивность для мобильных устройств (max-width: 768px) */
 @media (max-width: 768px) {
   .tab {
-      height: 80px;
-      padding: 0 15px;
+      height: 60px;
+      padding: 0 10px;
+  }
+
+  .tab.hidden {
+      transform: translateY(-100%); /* Сдвиг остаётся таким же */
   }
 
   .nav-buttons {
-      gap: 20px;
+      gap: 15px;
   }
 
   .account-btn, .basket-btn, .add-product-btn {
-      width: 60px;
-      height: 60px;
+      width: 40px;
+      height: 40px;
   }
 
   .account-btn .account-avatar {
-      width: 50px;
-      height: 50px;
+      width: 34px;
+      height: 34px;
+  }
+
+  .basket-btn img, .add-product-btn img {
+      width: 30px;
+      height: 30px;
   }
 
   .container {
-      padding: 100px 15px 30px;
+      padding: 80px 10px 20px;
       min-height: 150vh;
   }
 
+  .hero-section {
+      margin-bottom: 40px;
+  }
+
   .hero-section h1 {
-      font-size: 3rem;
+      font-size: 2rem;
   }
 
   .hero-section p {
-      font-size: 1.5rem;
+      font-size: 1rem;
+      max-width: 90%;
+  }
+
+  .products-section {
+      margin-bottom: 40px;
   }
 
   .products-section h2 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+  }
+
+  .products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      padding: 0 5px;
+  }
+
+  .product-card {
+      padding: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
   }
 
   .product-card img {
       height: 120px;
   }
 
+  .product-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+  }
+
+  .product-card p {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+  }
+
+  .product-card .price {
+      font-size: 1rem;
+      margin-bottom: 10px;
+  }
+
+  .product-card .product-buttons {
+      gap: 8px;
+  }
+
+  .product-card button {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+  }
+
   .modal-content {
       width: 90%;
+      max-width: 320px;
       padding: 15px;
   }
 
+  .modal-content h2 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+  }
+
+  .modal-buttons button {
+      padding: 8px 15px;
+      font-size: 0.9rem;
+  }
+
   .scroll-top-btn {
-      bottom: 30px;
-      right: 30px;
-      width: 60px;
-      height: 60px;
-      font-size: 28px;
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+  }
+
+  .scroll-top-btn.hidden {
+      transform: translateX(60px) scale(0.5);
   }
 
   .scroll-top-btn::before {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
   }
 
   .bottom {
-      padding: 30px;
+      padding: 20px;
+      font-size: 1rem;
+      min-height: 120px;
+  }
+}
+
+/* Адаптивность для устройств с низким разрешением в альбомной ориентации */
+@media screen and (max-width: 1520px) and (max-height: 720px) and (orientation: landscape) {
+  .tab {
+      height: 60px;
+      padding: 0 15px;
+  }
+
+  .tab.hidden {
+      transform: translateY(-100%); /* Сдвиг остаётся таким же */
+  }
+
+  .nav-buttons {
+      gap: 15px;
+  }
+
+  .account-btn, .basket-btn, .add-product-btn {
+      width: 40px;
+      height: 40px;
+  }
+
+  .account-btn .account-avatar {
+      width: 34px;
+      height: 34px;
+  }
+
+  .basket-btn img, .add-product-btn img {
+      width: 30px;
+      height: 30px;
+  }
+
+  .container {
+      padding: 80px 15px 30px;
+      min-height: 120vh;
+  }
+
+  .hero-section {
+      margin-bottom: 50px;
+  }
+
+  .hero-section h1 {
+      font-size: 2.5rem;
+  }
+
+  .hero-section p {
       font-size: 1.2rem;
-      min-height: 150px;
+      max-width: 80%;
+  }
+
+  .products-section {
+      margin-bottom: 50px;
+  }
+
+  .products-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+  }
+
+  .products-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+      padding: 0 10px;
+  }
+
+  .product-card {
+      padding: 15px;
+      border: 1px solid rgba(255, 255,  tric, 255, 0.15);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-card img {
+      height: 130px;
+  }
+
+  .product-card h3 {
+      font-size: 1.3rem;
+  }
+
+  .product-card p {
+      font-size: 0.9rem;
+  }
+
+  .product-card .price {
+      font-size: 1.1rem;
+  }
+
+  .product-card .product-buttons {
+      gap: 8px;
+  }
+
+  .product-card button {
+      padding: 6px 12px;
+      font-size: 0.8rem;
+  }
+
+  .modal-content {
+      width: 80%;
+      max-width: 400px;
+      padding: 15px;
+  }
+
+  .modal-content h2 {
+      font-size: 1.6rem;
+  }
+
+  .modal-buttons button {
+      padding: 8px 15px;
+  }
+
+  .scroll-top-btn {
+      bottom: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      font-size: 20px;
+  }
+
+  .scroll-top-btn.hidden {
+      transform: translateX(60px) scale(0.5);
+  }
+
+  .scroll-top-btn::before {
+      width: 60px;
+      height: 60px;
+  }
+
+  .bottom {
+      padding: 20px;
+      font-size: 1rem;
+      min-height: 100px;
   }
 }
