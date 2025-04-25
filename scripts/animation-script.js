@@ -11,6 +11,25 @@ function throttle(func, limit) {
     };
 }
 
+function applyProductVisibility() {
+    const products = document.querySelectorAll('.product-card');
+    if (!products) return;
+
+    const windowHeight = window.innerHeight;
+    const isMobile = window.innerWidth <= 768;
+
+    products.forEach((product, index) => {
+        const rect = product.getBoundingClientRect();
+        const isVisible = rect.top <= windowHeight * 0.8 && rect.bottom >= 0;
+
+        if (isVisible && !product.classList.contains('visible')) {
+            setTimeout(() => {
+                product.classList.add('visible');
+            }, isMobile ? index * 150 : index * 75);
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const scrollTopBtn = document.querySelector('.scroll-top-btn');
     const tab = document.querySelector('.tab');
@@ -41,18 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
     if (accountBtn) {
         setTimeout(() => {
             accountBtn.classList.add('visible');
+            accountBtn.classList.add('pulse');
         }, 800);
     }
 
     if (basketBtn) {
         setTimeout(() => {
             basketBtn.classList.add('visible');
+            basketBtn.classList.add('pulse');
         }, 1000);
     }
 
     if (addProductBtn) {
         setTimeout(() => {
             addProductBtn.classList.add('visible');
+            addProductBtn.classList.add('pulse');
         }, 1200);
     }
 
@@ -62,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1400);
     }
 
-    // Убрали applyProductVisibility, так как анимация теперь управляется в script.js
+    applyProductVisibility();
 });
 
 document.addEventListener('scroll', throttle(() => {
@@ -90,6 +112,8 @@ document.addEventListener('scroll', throttle(() => {
         }
     }
 
+    applyProductVisibility();
+
     lastScrollY = currentScrollY;
 }, 100));
 
@@ -105,35 +129,35 @@ window.addEventListener('beforeunload', () => {
         products.forEach((product, index) => {
             setTimeout(() => {
                 product.style.opacity = '0';
-                product.style.transform = window.innerWidth <= 768 ? 'translateX(-100%)' : 'opacity(0)';
+                product.style.transform = 'scale(0.8)';
             }, (products.length - 1 - index) * 100);
         });
     }
 
     setTimeout(() => {
         if (wishedProductsBtn) {
-            wishedProductsBtn.style.transform = 'translateX(-100px)';
+            wishedProductsBtn.style.transform = 'translateY(-50px)';
             wishedProductsBtn.style.opacity = '0';
         }
     }, products.length * 100);
 
     setTimeout(() => {
         if (addProductBtn) {
-            addProductBtn.style.transform = 'translateX(-100px)';
+            addProductBtn.style.transform = 'translateY(-50px)';
             addProductBtn.style.opacity = '0';
         }
     }, products.length * 100 + 100);
 
     setTimeout(() => {
         if (basketBtn) {
-            basketBtn.style.transform = 'translateX(-100px)';
+            basketBtn.style.transform = 'translateY(-50px)';
             basketBtn.style.opacity = '0';
         }
     }, products.length * 100 + 200);
 
     setTimeout(() => {
         if (accountBtn) {
-            accountBtn.style.transform = 'translateX(-100px)';
+            accountBtn.style.transform = 'translateY(-50px)';
             accountBtn.style.opacity = '0';
         }
     }, products.length * 100 + 300);

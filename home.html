@@ -9,19 +9,25 @@
 </head>
 <body>
     <!-- Навигационная панель -->
-    <header class="tab" id="tab">
-        <div class="nav-buttons">
-            <button class="account-btn" onclick="location.href='account.html'" aria-label="Аккаунт">
-                <img id="account-avatar" class="account-avatar" src="./ico/user/dog-white/dog-white-user-512px.png" alt="Аватар пользователя">
-            </button>
-            <button class="basket-btn" aria-label="Корзина">
-                <img src="./ico/cart/cart/cart-white-512px.png" alt="Корзина">
-            </button>
-            <button id="add-product-btn" class="add-product-btn" aria-label="Добавить товар" style="display: none;">
-                <img src="./ico/plus/white-plus-512px.png" alt="Добавить">
+    <div class="tab">
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Поиск по названию...">
+            <button class="wished-products-btn" id="wished-products-btn">
+                <img src="./img/wish-icon.png" alt="Посмотреть лайкнутые">
             </button>
         </div>
-    </header>
+        <div class="nav-buttons">
+            <button class="account-btn">
+                <img class="account-avatar" src="./ico/user/white/white-user-512px.png" alt="Аккаунт">
+            </button>
+            <button class="basket-btn">
+                <img src="./ico/cart/cart/cart-white-512px.png" alt="Корзина">
+            </button>
+            <button class="add-product-btn" id="add-product-btn">
+                <img src="./ico/plus/white-plus-512px.png" alt="Добавить товар">
+            </button>
+        </div>
+    </div>
 
     <!-- Основной контент -->
     <main class="container">
@@ -68,6 +74,33 @@
         </div>
     </div>
 
+
+    <div class="product-card" data-id="1">
+        <img src="./img/test-product.jpg" alt="Тестовый товар">
+        <h3>Тест</h3>
+        <p>Тестовое описание</p>
+        <span class="price">50 ₽</span>
+        <div class="product-buttons">
+            <button class="add-to-basket-btn">В корзину</button>
+            <button class="wish-btn">★ Избранное</button>
+            <button class="edit-btn">Редактировать</button>
+            <button class="delete-btn">Удалить</button>
+        </div>
+    </div>
+
+    <div class="basket-modal">
+        <div class="basket-modal-content">
+            <h2>Корзина</h2>
+            <div class="basket-items"></div>
+            <div class="basket-total">
+                <p>Итого: 0 ₽</p>
+            </div>
+            <div class="basket-modal-buttons">
+                <button id="close-basket">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Кнопка "Наверх" -->
     <span onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="scroll-top-btn" aria-label="Наверх">^</span>
 
@@ -79,6 +112,7 @@
     <!-- Фоновый слой -->
     <div class="background"></div>
     <script defer src="script.js"></script>
-    <script defer src="./scripts/script-home.js"></script>
+    <!-- <script defer src="./scripts/script-home.js"></script> -->
+    <script defer src="./scripts/animation-script.js"></script>
 </body>
 </html>

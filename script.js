@@ -1,3 +1,7 @@
+let basket = [];
+let allProducts = [];
+let showWishedOnly = false;
+
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.getElementById("register-form");
     const loginForm = document.getElementById("login-form");
@@ -11,14 +15,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const eyeIcon = document.getElementById("eye-icon");
     const eyeIconPassword = document.getElementById("eye-icon-password");
     const eyeIconConfirm = document.getElementById("eye-icon-confirm");
+    const basketBtn = document.querySelector('.basket-btn');
+    const closeBasketBtn = document.querySelector('#close-basket');
+    const searchInput = document.getElementById('search-input');
+    const wishedProductsBtn = document.getElementById('wished-products-btn');
+    const accountBtn = document.querySelector('.account-btn');
 
-    // Анимация влёта для login-box
     const loginBox = document.querySelector(".login-box");
     if (loginBox) {
         loginBox.classList.add("fly-in");
     }
 
-    // Анимация влёта для register-box
     const registerBox = document.querySelector(".register-box");
     if (registerBox) {
         registerBox.classList.add("fly-in");
@@ -76,6 +83,73 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (user && user.prefix === "admin") {
         addProductBtn.style.display = "flex";
+    }
+
+    if (user && accountBtn) {
+        const avatarImg = accountBtn.querySelector('.account-avatar');
+        if (avatarImg) {
+            avatarImg.src = user.avatar ? `/avatars/${user.avatar}` : "./ico/user/white/white-user-40px.png";
+        }
+    }
+
+    if (accountBtn) {
+        accountBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const href = "account.html";
+
+            const tab = document.querySelector('.tab');
+            const products = document.querySelectorAll('.product-card');
+            const basketBtn = document.querySelector('.basket-btn');
+            const addProductBtn = document.querySelector('.add-product-btn');
+            const wishedProductsBtn = document.querySelector('.wished-products-btn');
+
+            if (products.length > 0) {
+                products.forEach((product, index) => {
+                    setTimeout(() => {
+                        product.style.opacity = '0';
+                        product.style.transform = 'scale(0.8)';
+                    }, (products.length - 1 - index) * 100);
+                });
+            }
+
+            setTimeout(() => {
+                if (wishedProductsBtn) {
+                    wishedProductsBtn.style.transform = 'translateY(-50px)';
+                    wishedProductsBtn.style.opacity = '0';
+                }
+            }, products.length * 100);
+
+            setTimeout(() => {
+                if (addProductBtn) {
+                    addProductBtn.style.transform = 'translateY(-50px)';
+                    addProductBtn.style.opacity = '0';
+                }
+            }, products.length * 100 + 100);
+
+            setTimeout(() => {
+                if (basketBtn) {
+                    basketBtn.style.transform = 'translateY(-50px)';
+                    basketBtn.style.opacity = '0';
+                }
+            }, products.length * 100 + 200);
+
+            setTimeout(() => {
+                if (accountBtn) {
+                    accountBtn.style.transform = 'translateY(-50px)';
+                    accountBtn.style.opacity = '0';
+                }
+            }, products.length * 100 + 300);
+
+            setTimeout(() => {
+                if (tab) {
+                    tab.classList.add('hidden');
+                }
+            }, products.length * 100 + 400);
+
+            setTimeout(() => {
+                window.location.href = href;
+            }, products.length * 100 + 500);
+        });
     }
 
     loadProducts();
@@ -161,7 +235,51 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Анимация вылета при переходе по ссылке (для index.html и register.html)
+    if (basketBtn) {
+        basketBtn.addEventListener('click', () => {
+            const basketModal = document.querySelector('.basket-modal');
+            console.log('Basket Modal:', basketModal);
+            if (basketModal) {
+                basketModal.style.display = 'flex';
+                renderBasket();
+            } else {
+                console.error('Basket modal not found!');
+            }
+        });
+    }
+
+    if (closeBasketBtn) {
+        closeBasketBtn.addEventListener('click', () => {
+            const basketModal = document.querySelector('.basket-modal');
+            if (basketModal) {
+                basketModal.style.display = 'none';
+            }
+        });
+    }
+
+    if (searchInput) {
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.toLowerCase();
+            filterProducts(searchTerm, showWishedOnly);
+        });
+    }
+
+    if (wishedProductsBtn) {
+        wishedProductsBtn.addEventListener('click', () => {
+            wishedProductsBtn.classList.remove(showWishedOnly ? 'toggle-off' : 'toggle-on');
+            wishedProductsBtn.classList.add(showWishedOnly ? 'toggle-on' : 'toggle-off');
+
+            setTimeout(() => {
+                showWishedOnly = !showWishedOnly;
+                wishedProductsBtn.classList.toggle('active', showWishedOnly);
+                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+                filterProducts(searchTerm, showWishedOnly);
+
+                wishedProductsBtn.classList.remove('toggle-on', 'toggle-off');
+            }, 300);
+        });
+    }
+
     document.querySelectorAll("a").forEach(link => {
         link.addEventListener("click", function (e) {
             e.preventDefault();
@@ -178,28 +296,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
             setTimeout(() => {
                 window.location.href = href;
-            }, 700); // 700 мс — длительность анимации
+            }, 700);
         });
     });
 });
 
-async function loadProducts() {
+function filterProducts(searchTerm, showWishedOnly) {
     const productsGrid = document.getElementById("products-grid");
     const user = JSON.parse(localStorage.getItem("user"));
-    const isAdmin = user && user.prefix === "admin";
+    const username = user ? user.username : null;
 
-    try {
-        const response = await fetch("/api/products");
-        if (!response.ok) throw new Error(`Failed to load products: ${response.status}`);
-        const products = await response.json();
+    const filteredProducts = allProducts.filter(product => {
+        const matchesSearch = product.title.toLowerCase().includes(searchTerm);
+        const isWished = username && product.wishedBy.includes(username);
+        return matchesSearch && (!showWishedOnly || isWished);
+    });
 
-        productsGrid.innerHTML = "";
-        products.forEach(product => {
+    const productCards = productsGrid.querySelectorAll('.product-card');
+    productCards.forEach(card => {
+        card.classList.remove('visible');
+        card.classList.add('hidden');
+    });
+
+    setTimeout(() => {
+        productsGrid.innerHTML = '';
+        filteredProducts.forEach(product => {
             const productCard = document.createElement("div");
             productCard.className = "product-card";
             productCard.dataset.id = product.id;
 
-            const isWished = user && product.wishedBy.includes(user.username);
+            const isWished = username && product.wishedBy.includes(username);
+            const isAdmin = user && user.prefix === "admin";
+            const isInBasket = basket.some(item => item.id === product.id);
 
             productCard.innerHTML = `
                 <img src="${product.cover ? `/covers/${product.cover}` : './img/placeholder-product.jpg'}" alt="${product.title}">
@@ -208,7 +336,7 @@ async function loadProducts() {
                 <span class="price">${product.price} ₽</span>
                 <div class="product-buttons">
                     <button class="buy-btn">Купить</button>
-                    <button class="cart-btn">В корзину</button>
+                    <button class="cart-btn ${isInBasket ? 'added' : ''}">${isInBasket ? 'Добавлено' : 'В корзину'}</button>
                     <button class="wish-btn ${isWished ? 'active' : ''}">${isWished ? '★' : '☆'}</button>
                     ${isAdmin ? `
                         <button class="delete-btn">Удалить</button>
@@ -219,8 +347,12 @@ async function loadProducts() {
 
             productsGrid.appendChild(productCard);
 
+            setTimeout(() => {
+                productCard.classList.add('visible');
+            }, 50);
+
             productCard.querySelector(".buy-btn").addEventListener("click", () => buyProduct(product.id));
-            productCard.querySelector(".cart-btn").addEventListener("click", () => addToCart(product.id));
+            productCard.querySelector(".cart-btn").addEventListener("click", () => addToCart(product));
             productCard.querySelector(".wish-btn").addEventListener("click", () => toggleWish(product.id));
 
             if (isAdmin) {
@@ -228,6 +360,38 @@ async function loadProducts() {
                 productCard.querySelector(".edit-btn").addEventListener("click", () => editProduct(product));
             }
         });
+
+        if (filteredProducts.length === 0) {
+            productsGrid.innerHTML = '<p>Товары не найдены.</p>';
+        }
+    }, 500);
+}
+
+function showNotification(message) {
+    let notification = document.querySelector('.notification');
+    if (!notification) {
+        notification = document.createElement('div');
+        notification.className = 'notification';
+        document.body.appendChild(notification);
+    }
+    notification.textContent = message;
+    notification.classList.add('show');
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+async function loadProducts() {
+    const productsGrid = document.getElementById("products-grid");
+    const user = JSON.parse(localStorage.getItem("user"));
+    const isAdmin = user && user.prefix === "admin";
+
+    try {
+        const response = await fetch("/api/products");
+        if (!response.ok) throw new Error(`Failed to load products: ${response.status}`);
+        allProducts = await response.json();
+
+        filterProducts('', showWishedOnly);
     } catch (err) {
         console.error("Ошибка загрузки товаров:", err);
         productsGrid.innerHTML = "<p>Не удалось загрузить товары. Попробуйте позже.</p>";
@@ -238,41 +402,136 @@ function buyProduct(productId) {
     alert(`Куплен товар с ID ${productId}! (Функционал в разработке)`);
 }
 
-function addToCart(productId) {
-    alert(`Товар ${productId} добавлен в корзину! (Функционал в разработке)`);
+async function addToCart(product) {
+    const existingItem = basket.find(item => item.id === product.id);
+    if (existingItem) {
+        showNotification('Товар уже в корзине!');
+        return;
+    }
+
+    const productData = {
+        id: product.id,
+        name: product.title,
+        description: product.description,
+        price: product.price,
+        image: product.cover ? `/covers/${product.cover}` : './img/placeholder-product.jpg'
+    };
+
+    basket.push(productData);
+
+    const productCard = document.querySelector(`.product-card[data-id="${product.id}"]`);
+    if (productCard) {
+        const cartBtn = productCard.querySelector('.cart-btn');
+        if (cartBtn) {
+            cartBtn.textContent = 'Добавлено';
+            cartBtn.classList.add('added');
+            cartBtn.disabled = true;
+        }
+    }
+
+    showNotification('Товар добавлен в корзину!');
+    console.log('Basket updated:', basket);
+}
+
+function renderBasket() {
+    const basketItemsContainer = document.querySelector('.basket-items');
+    const basketTotal = document.querySelector('.basket-total p');
+    if (!basketItemsContainer || !basketTotal) {
+        console.error('Basket items container or total not found!');
+        return;
+    }
+
+    basketItemsContainer.innerHTML = '';
+    let total = 0;
+
+    if (basket.length === 0) {
+        basketItemsContainer.innerHTML = '<p>Корзина пуста</p>';
+        total = 0;
+    } else {
+        basket.forEach((item, index) => {
+            const basketItem = document.createElement('div');
+            basketItem.classList.add('basket-item');
+            basketItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="basket-item-details">
+                    <h3>${item.name}</h3>
+                    <p>${item.description}</p>
+                </div>
+                <span class="price">${item.price} ₽</span>
+                <button class="remove-btn">Удалить</button>
+            `;
+            basketItemsContainer.appendChild(basketItem);
+
+            const removeBtn = basketItem.querySelector('.remove-btn');
+            removeBtn.addEventListener('click', () => {
+                basket.splice(index, 1);
+                renderBasket();
+
+                const productCard = document.querySelector(`.product-card[data-id="${item.id}"]`);
+                if (productCard) {
+                    const cartBtn = productCard.querySelector('.cart-btn');
+                    if (cartBtn) {
+                        cartBtn.textContent = 'В корзину';
+                        cartBtn.classList.remove('added');
+                        cartBtn.disabled = false;
+                    }
+                }
+            });
+
+            total += item.price;
+        });
+    }
+
+    basketTotal.textContent = `Итого: ${total} ₽`;
 }
 
 async function toggleWish(productId) {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-        alert("Войдите в аккаунт, чтобы добавить в желаемые!");
+        showNotification("Войдите в аккаунт, чтобы добавить в желаемые!");
         return;
     }
 
     try {
+        // Получаем продукт
         const response = await fetch(`/api/products/${productId}`);
-        if (!response.ok) throw new Error(`Failed to fetch product: ${response.status}`);
+        if (!response.ok) throw new Error(`Не удалось загрузить продукт: ${response.status}`);
         const product = await response.json();
 
-        const wishedBy = product.wishedBy || [];
-        const index = wishedBy.indexOf(user.username);
+        // Проверяем, есть ли пользователь в списке wishedBy
+        let wishedBy = product.wishedBy || [];
+        const userIndex = wishedBy.indexOf(user.username);
 
-        if (index === -1) {
+        if (userIndex === -1) {
             wishedBy.push(user.username);
+            showNotification("Товар добавлен в желаемые!");
         } else {
-            wishedBy.splice(index, 1);
+            wishedBy.splice(userIndex, 1);
+            showNotification("Товар удалён из желаемых!");
         }
 
+        // Обновляем продукт на сервере
         const updateResponse = await fetch(`/api/products/${productId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ...product, wishedBy })
         });
-        if (!updateResponse.ok) throw new Error(`Failed to update wish: ${updateResponse.status}`);
 
-        loadProducts();
+        if (!updateResponse.ok) throw new Error(`Не удалось обновить желаемые: ${updateResponse.status}`);
+
+        // Обновляем локальный список продуктов
+        const productIndex = allProducts.findIndex(p => p.id === productId);
+        if (productIndex !== -1) {
+            allProducts[productIndex].wishedBy = wishedBy;
+        }
+
+        // Перерисовываем продукты
+        const searchInput = document.getElementById('search-input');
+        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+        filterProducts(searchTerm, showWishedOnly);
     } catch (err) {
-        alert("Ошибка: " + err.message);
+        showNotification("Ошибка: " + err.message);
+        console.error("Ошибка в toggleWish:", err);
     }
 }
 
@@ -343,16 +602,14 @@ async function register(event) {
 
         localStorage.setItem("user", JSON.stringify(newUser));
 
-        // Применяем анимацию вылета вверх
         if (registerBox) {
             registerBox.classList.remove("fly-in");
             registerBox.classList.add("fly-up");
         }
 
-        // Ждём окончания анимации перед переходом
         setTimeout(() => {
             window.location.href = "home.html";
-        }, 700); // 700 мс — длительность анимации
+        }, 700);
     } catch (err) {
         alert("Ошибка регистрации: " + err.message);
     }
@@ -375,16 +632,14 @@ async function login(event) {
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
 
-            // Применяем анимацию вылета вверх
             if (loginBox) {
                 loginBox.classList.remove("fly-in");
                 loginBox.classList.add("fly-up");
             }
 
-            // Ждём окончания анимации перед переходом
             setTimeout(() => {
                 window.location.href = "home.html";
-            }, 700); // 700 мс — длительность анимации
+            }, 700);
         } else {
             alert("Неправильный ник или пароль!");
         }
