@@ -337,7 +337,9 @@ function filterProducts(searchTerm, showWishedOnly) {
                 <div class="product-buttons">
                     <button class="buy-btn">Купить</button>
                     <button class="cart-btn ${isInBasket ? 'added' : ''}">${isInBasket ? 'Добавлено' : 'В корзину'}</button>
-                    <button class="wish-btn ${isWished ? 'active' : ''}">${isWished ? '★' : '☆'}</button>
+                    <button class="wish-btn ${isWished ? 'active' : ''}">
+                        <img src="${isWished ? './ico/heart/fill/white-heart-50px.png.png' : './ico/heart/no-fill/white-heart-50px.png'}" alt="Добавить в избранное">
+                    </button>
                     ${isAdmin ? `
                         <button class="delete-btn">Удалить</button>
                         <button class="edit-btn">Редактировать</button>
@@ -353,7 +355,10 @@ function filterProducts(searchTerm, showWishedOnly) {
 
             productCard.querySelector(".buy-btn").addEventListener("click", () => buyProduct(product.id));
             productCard.querySelector(".cart-btn").addEventListener("click", () => addToCart(product));
-            productCard.querySelector(".wish-btn").addEventListener("click", () => toggleWish(product.id));
+            productCard.querySelector(".wish-btn").addEventListener("click", (event) => {
+                event.preventDefault(); // Предотвращаем обновление страницы
+                toggleWish(product.id);
+            });
 
             if (isAdmin) {
                 productCard.querySelector(".delete-btn").addEventListener("click", () => deleteProduct(product.id));
@@ -390,12 +395,14 @@ async function loadProducts() {
         const response = await fetch("/api/products");
         if (!response.ok) throw new Error(`Failed to load products: ${response.status}`);
         allProducts = await response.json();
-
-        filterProducts('', showWishedOnly);
+        console.log("Loaded products from server:", allProducts); // Отладка
     } catch (err) {
         console.error("Ошибка загрузки товаров:", err);
         productsGrid.innerHTML = "<p>Не удалось загрузить товары. Попробуйте позже.</p>";
+        return;
     }
+
+    filterProducts('', showWishedOnly);
 }
 
 function buyProduct(productId) {
@@ -493,20 +500,31 @@ async function toggleWish(productId) {
     }
 
     try {
-        // Получаем продукт
+        console.log("Toggling wish for productId:", productId); // Отладка
+
+        // Получаем продукт с сервера
         const response = await fetch(`/api/products/${productId}`);
         if (!response.ok) throw new Error(`Не удалось загрузить продукт: ${response.status}`);
         const product = await response.json();
+        console.log("Product fetched from server:", product); // Отладка
 
         // Проверяем, есть ли пользователь в списке wishedBy
         let wishedBy = product.wishedBy || [];
         const userIndex = wishedBy.indexOf(user.username);
 
+        const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
+        const wishBtn = productCard.querySelector('.wish-btn');
+        const wishImg = wishBtn.querySelector('img');
+
         if (userIndex === -1) {
             wishedBy.push(user.username);
+            wishImg.src = './ico/heart/fill/white-heart-50px.png.png';
+            wishBtn.classList.add('active');
             showNotification("Товар добавлен в желаемые!");
         } else {
             wishedBy.splice(userIndex, 1);
+            wishImg.src = './ico/heart/no-fill/white-heart-50px.png';
+            wishBtn.classList.remove('active');
             showNotification("Товар удалён из желаемых!");
         }
 
@@ -523,6 +541,8 @@ async function toggleWish(productId) {
         const productIndex = allProducts.findIndex(p => p.id === productId);
         if (productIndex !== -1) {
             allProducts[productIndex].wishedBy = wishedBy;
+        } else {
+            console.warn(`Продукт с ID ${productId} не найден в allProducts`);
         }
 
         // Перерисовываем продукты
@@ -716,4 +736,50 @@ document.addEventListener("DOMContentLoaded", function () {
     if (user && avatarImg) {
         avatarImg.src = user.avatar ? `/avatars/${user.avatar}` : "./ico/user/white/white-user-40px.png";
     }
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.container');
+    const registerBtn = document.querySelector('.register-btn');
+    const regLink = document.querySelector('.reg a');
+
+    // Тестовая анимация ухода при клике на кнопку регистрации
+    registerBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Предотвращаем отправку формы
+        container.classList.remove('fly-in');
+        container.classList.add('fly-out');
+    });
+
+    // Тестовая анимация ухода при клике на ссылку "sign-in"
+    regLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Предотвращаем переход
+        container.classList.remove('fly-in');
+        container.classList.add('fly-out');
+    });
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.container');
+    const signUpBtn = document.querySelector('.sign-up');
+    const regLink = document.querySelector('.reg a');
+
+    // Анимация ухода при клике на кнопку входа
+    signUpBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // Предотвращаем отправку формы
+        container.classList.remove('fly-in');
+        container.classList.add('fly-out');
+    });
+
+    // Анимация ухода при клике на ссылку "sign-up"
+    regLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Предотвращаем переход
+        container.classList.remove('fly-in');
+        container.classList.add('fly-out');
+        // Переход на страницу регистрации после анимации
+        setTimeout(() => {
+            window.location.href = 'register.html';
+        }, 700); // Задержка соответствует длительности анимации (0.7s)
+    });
 });

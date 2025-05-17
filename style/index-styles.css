@@ -34,23 +34,10 @@ body {
     width: 100vw;
     padding: 20px;
     position: relative;
-}
-
-/* Блок входа */
-.login-box {
-    backdrop-filter: blur(8px);
-    background: rgba(50, 50, 50, 0.7);
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    max-width: 400px;
-    width: 100%;
     transition: transform 0.3s ease;
     transform: translateY(100vh) scale(0.5);
     opacity: 0;
     will-change: transform, opacity;
-    position: relative;
 }
 
 /* Анимация появления: вылетает снизу, увеличивается, перескакивает и опускается */
@@ -102,21 +89,31 @@ body {
 }
 
 /* Классы для применения анимаций */
-.login-box.fly-in {
+.container.fly-in {
     animation: flyInWithScale 0.7s ease-out forwards;
 }
 
-.login-box.fly-out {
+.container.fly-out {
     animation: flyOutWithScale 0.7s ease-in forwards;
 }
 
-.login-box.fly-up {
+.container.fly-up {
     animation: flyUpWithScale 0.7s ease-in forwards;
 }
 
-/* Ховер-эффект */
-.login-box:hover {
-    transform: translateY(-5px) scale(1);
+
+/* Блок входа */
+.login-box {
+    backdrop-filter: blur(8px);
+    background: rgba(50, 50, 50, 0.7);
+    padding: 30px;
+    border-radius: 1px 1px 12px 12px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    max-width: 400px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 /* Заголовок */
@@ -205,19 +202,59 @@ input::placeholder {
     height: 32px;
 }
 
-/* Ссылка "Зарегистрироваться?" */
+/* Ссылка "Зарегистрироваться" */
 .reg {
-    margin-top: 20px;
+    position: absolute;
+    padding: 12px 40px;
+    margin-top: -419px;
+    margin-left: 353px;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
 .reg a {
     color: #ffffff;
     text-decoration: none;
     transition: color 0.3s ease;
+    padding: 10px 20px;
+    backdrop-filter: blur(8px);
+    background: rgba(50, 50, 50, 0.7);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 8px 8px 1px 1px;
+    display: inline-block;
 }
 
 .reg a:hover {
-    color: #f0f8ff;
+    color: #cccccc;
+}
+
+.reg a:active {
+    color: #252525;
+}
+
+/* Ссылка "войти" */
+.sign {
+    position: absolute;
+    padding: 12px 40px;
+    margin-top: -419px;
+    margin-right: 353px;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.sign a {
+    color: #252525;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 10px 20px;
+    backdrop-filter: blur(8px);
+    background: rgba(50, 50, 50, 0.7);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    border-radius: 8px 8px 1px 1px;
+    display: inline-block;
+}
+
+.disabled {
+    pointer-events: none; /* Отключает взаимодействие */
+    cursor: no-drop;
 }
 
 /* Адаптивность для мобильных устройств (max-width: 768px) */
@@ -262,6 +299,16 @@ input::placeholder {
         width: 24px;
         height: 24px;
     }
+
+    .reg a {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .sign a {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
 }
 
 /* Адаптивность для устройств с низким разрешением в альбомной ориентации */
@@ -297,7 +344,7 @@ input::placeholder {
 
     #toggle-password {
         position: absolute;
-        right: 10px; /* Корректируем смещение */
+        right: 10px;
     }
 
     .sign-up {
@@ -307,8 +354,13 @@ input::placeholder {
         padding: 40px 10px;
     }
 
-    .reg {
-        margin-top: 15px;
-        margin-left: 0;
+    .reg a {
+        font-size: 0.9rem;
+        padding: 8px 15px;
+    }
+
+    .sign a {
+        font-size: 0.9rem;
+        padding: 8px 15px;
     }
 }

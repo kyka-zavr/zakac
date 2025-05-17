@@ -357,6 +357,26 @@ html, body {
   background: #666;
 }
 
+.product-card button.wish-btn {
+  background: #333;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 60px;
+  height: 40px;
+  border-radius: 8px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.product-card button.wish-btn img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.3));
+}
+
 .product-card button.wish-btn.active {
   background: #555;
 }
@@ -365,9 +385,39 @@ html, body {
   background: #777;
 }
 
-.product-card button.added {
+.product-card button.wish-btn:hover {
+  background: #555;
+  transform: translateY(-2px);
+}
+
+.product-card button.wish-btn:active {
+  transform: translateY(0);
+}
+
+.product-card button.cart-btn {
+  background: #333;
+}
+
+.product-card button.cart-btn:hover {
+  background: #555;
+}
+
+.product-card button.cart-btn.added {
   background: #444;
   cursor: default;
+}
+
+.product-card button.cart-btn.added:hover {
+  background: #444;
+  transform: none;
+}
+
+.product-card button.buy-btn {
+  background: #333;
+}
+
+.product-card button.buy-btn:hover {
+  background: #555;
 }
 
 /* Уведомление */
@@ -865,6 +915,16 @@ html, body {
       max-width: 140px;
   }
 
+  .product-card button.wish-btn {
+      max-width: 50px;
+      height: 36px;
+  }
+
+  .product-card button.wish-btn img {
+      width: 20px;
+      height: 20px;
+  }
+
   .notification {
       top: 70px;
       right: 10px;
@@ -1074,6 +1134,16 @@ html, body {
   .product-card button {
       padding: 6px 15px;
       font-size: 0.8rem;
+  }
+
+  .product-card button.wish-btn {
+      max-width: 50px;
+      height: 36px;
+  }
+
+  .product-card button.wish-btn img {
+      width: 20px;
+      height: 20px;
   }
 
   .modal-content {
