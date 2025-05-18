@@ -168,3 +168,68 @@ window.addEventListener('beforeunload', () => {
         }
     }, products.length * 100 + 400);
 });
+
+
+// вход и выход страниц
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.container');
+    const registerBtn = document.querySelector('.register-btn');
+    const regLink = document.querySelector('.reg a');
+    const signUpBtn = document.querySelector('.sign-up');
+    const fpBtn = document.querySelector('.fp'); // Находим кнопку с классом fp
+
+    // Тестовая анимация ухода при клике на кнопку регистрации
+    if (registerBtn) {
+        registerBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Предотвращаем отправку формы
+            container.classList.remove('fly-in');
+            container.classList.add('fly-out');
+        });
+    }
+
+    // Анимация ухода при клике на кнопку входа
+    if (signUpBtn) {
+        signUpBtn.addEventListener('click', (e) => {
+            e.preventDefault(); // Предотвращаем отправку формы
+            container.classList.remove('fly-in');
+            container.classList.add('fly-out');
+        });
+    }
+
+    // Анимация ухода при клике на ссылку "sign-up"
+    regLink.addEventListener('click', (e) => {
+        e.preventDefault(); // Предотвращаем переход
+        container.classList.remove('fly-in');
+        container.classList.add('fly-out');
+        setTimeout(() => {
+            window.location.href = 'register.html';
+        }, 700);
+    });
+
+    // Анимация ухода при клике на кнопку "fp"
+    if (fpBtn) {
+        fpBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            container.classList.remove('fly-in');
+            container.classList.add('fly-out');
+            setTimeout(() => {
+                window.location.href = 'password-recovery.html';
+            }, 700);
+        });
+    }
+
+    // Обработчик отправки формы восстановления пароля
+    const recoveryForm = document.querySelector('#recovery-form');
+    if (recoveryForm) {
+        recoveryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            container.classList.remove('fly-in');
+            container.classList.add('fly-out');
+
+            setTimeout(() => {
+                alert('Инструкция по восстановлению пароля отправлена на ваш Email.');
+                window.location.href = 'index.html';
+            }, 700);
+        });
+    }
+});
