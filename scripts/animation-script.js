@@ -187,14 +187,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Анимация ухода при клике на кнопку входа
-    if (signUpBtn) {
-        signUpBtn.addEventListener('click', (e) => {
-            e.preventDefault(); // Предотвращаем отправку формы
-            container.classList.remove('fly-in');
-            container.classList.add('fly-out');
-        });
-    }
+    // // Анимация ухода при клике на кнопку входа
+    // if (signUpBtn) {
+    //     signUpBtn.addEventListener('click', (e) => {
+    //         e.preventDefault(); // Предотвращаем отправку формы
+    //         container.classList.remove('fly-in');
+    //         container.classList.add('fly-out');
+            
+    //     });
+    // }
 
     // Анимация ухода при клике на ссылку "sign-up"
     regLink.addEventListener('click', (e) => {

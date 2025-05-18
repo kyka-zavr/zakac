@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мой аккаунт</title>
     <link rel="stylesheet" href="./style/account-styles.css">
-    <script src="script.js" defer></script>
+
 </head>
     <body>
         <div class="all">
@@ -15,7 +15,9 @@
             <img id="avatar-upload-img" src="./ico/pencil/white-pencil-32px.png" alt="Кликни для загрузки аватарки">
             <input type="file" id="avatar-upload" style="display: none;" onchange="uploadAvatar(event)"> 
 
-            <img id="account-avatar" src="./ico/user/white-user2-512px.png" alt=" ">
+            <button class="account-btn">
+                <img class="account-avatar" src="./ico/user/white/white-user-512px.png" alt="Аккаунт">
+            </button>
 
 
             <img onclick="window.location.href='home.html'" id="home-button" src="./ico/back/white-back-32px.png"  alt="">
@@ -34,5 +36,7 @@
                 <button id="save-description">Save</button>
                 <button id="cancel-description">✖</button>
             </div>
+
+        <script src="script.js" defer></script>
     </body>
 </html>

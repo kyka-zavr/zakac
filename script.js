@@ -2,309 +2,269 @@ let basket = [];
 let allProducts = [];
 let showWishedOnly = false;
 
-document.addEventListener("DOMContentLoaded", function () {
-    const registerForm = document.getElementById("register-form");
-    const loginForm = document.getElementById("login-form");
-    const logoutBtn = document.getElementById("logout-btn");
-    const avatarInput = document.getElementById("avatar-upload");
-    const togglePasswordBtn = document.getElementById("toggle-password");
-    const toggleConfirmPasswordBtn = document.getElementById("toggle-confirm-password");
-    const passwordInput = document.getElementById("login-password");
-    const registerPasswordInput = document.getElementById("register-password");
-    const confirmPasswordInput = document.getElementById("register-confirm");
-    const eyeIcon = document.getElementById("eye-icon");
-    const eyeIconPassword = document.getElementById("eye-icon-password");
-    const eyeIconConfirm = document.getElementById("eye-icon-confirm");
-    const basketBtn = document.querySelector('.basket-btn');
-    const closeBasketBtn = document.querySelector('#close-basket');
-    const searchInput = document.getElementById('search-input');
-    const wishedProductsBtn = document.getElementById('wished-products-btn');
-    const accountBtn = document.querySelector('.account-btn');
+document.addEventListener("DOMContentLoaded", initialize);
 
-    const loginBox = document.querySelector(".login-box");
-    if (loginBox) {
-        loginBox.classList.add("fly-in");
-    }
+function initialize() {
+    // DOM Elements
+    const elements = {
+        registerForm: document.getElementById("register-form"),
+        loginForm: document.getElementById("login-form"),
+        logoutBtn: document.getElementById("logout-btn"),
+        avatarInput: document.getElementById("avatar-upload"),
+        togglePasswordBtn: document.getElementById("toggle-password"),
+        toggleConfirmPasswordBtn: document.getElementById("toggle-confirm-password"),
+        passwordInput: document.getElementById("login-password"),
+        registerPasswordInput: document.getElementById("register-password"),
+        confirmPasswordInput: document.getElementById("register-confirm"),
+        eyeIcon: document.getElementById("eye-icon"),
+        eyeIconPassword: document.getElementById("eye-icon-password"),
+        eyeIconConfirm: document.getElementById("eye-icon-confirm"),
+        basketBtn: document.querySelector('.basket-btn'),
+        closeBasketBtn: document.querySelector('#close-basket'),
+        searchInput: document.getElementById('search-input'),
+        wishedProductsBtn: document.getElementById('wished-products-btn'),
+        accountBtn: document.querySelector('.account-btn'),
+        loginBox: document.querySelector(".login-box"),
+        registerBox: document.querySelector(".register-box"),
+        addProductBtn: document.getElementById("add-product-btn"),
+        productModal: document.getElementById("product-modal"),
+        productForm: document.getElementById("product-form"),
+        cancelProduct: document.getElementById("cancel-product"),
+        productsGrid: document.getElementById("products-grid"),
+        modalTitle: document.getElementById("modal-title")
+    };
 
-    const registerBox = document.querySelector(".register-box");
-    if (registerBox) {
-        registerBox.classList.add("fly-in");
-    }
+    // Apply fly-in animation
+    [elements.loginBox, elements.registerBox].forEach(box => {
+        if (box) box.classList.add("fly-in");
+    });
 
-    if (registerForm) registerForm.addEventListener("submit", register);
-    if (loginForm) loginForm.addEventListener("submit", login);
-    if (logoutBtn) logoutBtn.addEventListener("click", logout);
-    if (avatarInput) avatarInput.addEventListener("change", uploadAvatar);
-
-    if (document.getElementById("account-username")) loadAccount();
-    checkSession();
-
-    if (togglePasswordBtn && passwordInput && eyeIcon) {
-        togglePasswordBtn.addEventListener("click", () => {
-            const isPasswordVisible = passwordInput.type === "text";
-            passwordInput.type = isPasswordVisible ? "password" : "text";
-            eyeIcon.src = isPasswordVisible
-                ? "./ico/eye/cat-white/cat-closed-eye-32px.png"
-                : "./ico/eye/cat-white/cat-open-eye-32px.png";
-            eyeIcon.alt = isPasswordVisible ? "Show password" : "Hide password";
-        });
-    }
-
-    if (togglePasswordBtn && registerPasswordInput && eyeIconPassword) {
-        togglePasswordBtn.addEventListener("click", () => {
-            const isPasswordVisible = registerPasswordInput.type === "text";
-            registerPasswordInput.type = isPasswordVisible ? "password" : "text";
-            eyeIconPassword.src = isPasswordVisible
-                ? "./ico/eye/cat-white/cat-closed-eye-32px.png"
-                : "./ico/eye/cat-white/cat-open-eye-32px.png";
-            eyeIconPassword.alt = isPasswordVisible ? "Show password" : "Hide password";
-        });
-    }
-
-    if (toggleConfirmPasswordBtn && confirmPasswordInput && eyeIconConfirm) {
-        toggleConfirmPasswordBtn.addEventListener("click", () => {
-            const isConfirmVisible = confirmPasswordInput.type === "text";
-            confirmPasswordInput.type = isConfirmVisible ? "password" : "text";
-            eyeIconConfirm.src = isConfirmVisible
-                ? "./ico/eye/cat-white/cat-closed-eye-32px.png"
-                : "./ico/eye/cat-white/cat-open-eye-32px.png";
-            eyeIconConfirm.alt = isConfirmVisible ? "Show confirm password" : "Hide confirm password";
-        });
-    }
-
-    const addProductBtn = document.getElementById("add-product-btn");
-    const productModal = document.getElementById("product-modal");
-    const productForm = document.getElementById("product-form");
-    const cancelProduct = document.getElementById("cancel-product");
-    const productsGrid = document.getElementById("products-grid");
-    const modalTitle = document.getElementById("modal-title");
-
-    const user = JSON.parse(localStorage.getItem("user"));
-
-    if (user && user.prefix === "admin") {
-        addProductBtn.style.display = "flex";
-    }
-
-    if (user && accountBtn) {
-        const avatarImg = accountBtn.querySelector('.account-avatar');
-        if (avatarImg) {
-            avatarImg.src = user.avatar ? `/avatars/${user.avatar}` : "./ico/user/white/white-user-40px.png";
-        }
-    }
-
-    if (accountBtn) {
-        accountBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const href = "account.html";
-
-            const tab = document.querySelector('.tab');
-            const products = document.querySelectorAll('.product-card');
-            const basketBtn = document.querySelector('.basket-btn');
-            const addProductBtn = document.querySelector('.add-product-btn');
-            const wishedProductsBtn = document.querySelector('.wished-products-btn');
-
-            if (products.length > 0) {
-                products.forEach((product, index) => {
-                    setTimeout(() => {
-                        product.style.opacity = '0';
-                        product.style.transform = 'scale(0.8)';
-                    }, (products.length - 1 - index) * 100);
-                });
-            }
-
-            setTimeout(() => {
-                if (wishedProductsBtn) {
-                    wishedProductsBtn.style.transform = 'translateY(-50px)';
-                    wishedProductsBtn.style.opacity = '0';
-                }
-            }, products.length * 100);
-
-            setTimeout(() => {
-                if (addProductBtn) {
-                    addProductBtn.style.transform = 'translateY(-50px)';
-                    addProductBtn.style.opacity = '0';
-                }
-            }, products.length * 100 + 100);
-
-            setTimeout(() => {
-                if (basketBtn) {
-                    basketBtn.style.transform = 'translateY(-50px)';
-                    basketBtn.style.opacity = '0';
-                }
-            }, products.length * 100 + 200);
-
-            setTimeout(() => {
-                if (accountBtn) {
-                    accountBtn.style.transform = 'translateY(-50px)';
-                    accountBtn.style.opacity = '0';
-                }
-            }, products.length * 100 + 300);
-
-            setTimeout(() => {
-                if (tab) {
-                    tab.classList.add('hidden');
-                }
-            }, products.length * 100 + 400);
-
-            setTimeout(() => {
-                window.location.href = href;
-            }, products.length * 100 + 500);
-        });
-    }
-
-    loadProducts();
-
-    if (addProductBtn) {
-        addProductBtn.addEventListener("click", () => {
-            modalTitle.textContent = "Добавить новый товар";
-            productForm.reset();
-            productForm.dataset.editId = "";
-            productModal.style.display = "flex";
-        });
-    }
-
-    if (cancelProduct) {
-        cancelProduct.addEventListener("click", () => {
-            productModal.style.display = "none";
-        });
-    }
-
-    if (productForm) {
-        productForm.addEventListener("submit", async (event) => {
-            event.preventDefault();
-
-            const title = document.getElementById("product-title").value;
-            const description = document.getElementById("product-description").value;
-            const price = parseFloat(document.getElementById("product-price").value);
-            const stock = parseInt(document.getElementById("product-stock").value);
-            const coverInput = document.getElementById("product-cover");
-            const editId = productForm.dataset.editId;
-
-            let coverFileName = "";
-            if (coverInput.files[0]) {
-                const formData = new FormData();
-                formData.append("cover", coverInput.files[0]);
-                formData.append("title", title);
-
-                try {
-                    const response = await fetch("/api/upload-cover", {
-                        method: "POST",
-                        body: formData
-                    });
-                    if (!response.ok) throw new Error(`Upload cover failed: ${response.status}`);
-                    const data = await response.json();
-                    if (!data.success) throw new Error(data.message || "Ошибка загрузки обложки");
-                    coverFileName = data.filename;
-                } catch (err) {
-                    alert("Ошибка загрузки обложки: " + err.message);
-                    return;
-                }
-            }
-
-            const productData = {
-                title,
-                description,
-                cover: coverFileName,
-                price,
-                stock,
-                createdBy: user.username,
-                wishedBy: []
-            };
-
-            try {
-                if (editId) {
-                    const response = await fetch(`/api/products/${editId}`, {
-                        method: "PUT",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(productData)
-                    });
-                    if (!response.ok) throw new Error(`Edit product failed: ${response.status}`);
-                } else {
-                    const response = await fetch("/api/products", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(productData)
-                    });
-                    if (!response.ok) throw new Error(`Create product failed: ${response.status}`);
-                }
-                loadProducts();
-                productModal.style.display = "none";
-            } catch (err) {
-                alert("Ошибка сохранения товара: " + err.message);
-            }
-        });
-    }
-
-    if (basketBtn) {
-        basketBtn.addEventListener('click', () => {
+    // Event Listeners
+    const eventListeners = [
+        { element: elements.registerForm, event: "submit", handler: register },
+        { element: elements.loginForm, event: "submit", handler: login },
+        { element: elements.logoutBtn, event: "click", handler: logout },
+        { element: elements.avatarInput, event: "change", handler: uploadAvatar },
+        { element: elements.addProductBtn, event: "click", handler: () => {
+            elements.modalTitle.textContent = "Добавить новый товар";
+            elements.productForm.reset();
+            elements.productForm.dataset.editId = "";
+            elements.productModal.style.display = "flex";
+        }},
+        { element: elements.cancelProduct, event: "click", handler: () => {
+            elements.productModal.style.display = "none";
+        }},
+        { element: elements.productForm, event: "submit", handler: saveProduct },
+        { element: elements.basketBtn, event: "click", handler: () => {
             const basketModal = document.querySelector('.basket-modal');
-            console.log('Basket Modal:', basketModal);
             if (basketModal) {
                 basketModal.style.display = 'flex';
                 renderBasket();
             } else {
                 console.error('Basket modal not found!');
             }
-        });
-    }
-
-    if (closeBasketBtn) {
-        closeBasketBtn.addEventListener('click', () => {
+        }},
+        { element: elements.closeBasketBtn, event: "click", handler: () => {
             const basketModal = document.querySelector('.basket-modal');
-            if (basketModal) {
-                basketModal.style.display = 'none';
-            }
-        });
-    }
+            if (basketModal) basketModal.style.display = 'none';
+        }},
+        { element: elements.searchInput, event: "input", handler: () => {
+            filterProducts(elements.searchInput.value.toLowerCase(), showWishedOnly);
+        }},
+        { element: elements.wishedProductsBtn, event: "click", handler: toggleWishedProducts }
+    ];
 
-    if (searchInput) {
-        searchInput.addEventListener('input', () => {
-            const searchTerm = searchInput.value.toLowerCase();
-            filterProducts(searchTerm, showWishedOnly);
-        });
-    }
+    eventListeners.forEach(({ element, event, handler }) => {
+        if (element) element.addEventListener(event, handler);
+    });
 
-    if (wishedProductsBtn) {
-        wishedProductsBtn.addEventListener('click', () => {
-            wishedProductsBtn.classList.remove(showWishedOnly ? 'toggle-off' : 'toggle-on');
-            wishedProductsBtn.classList.add(showWishedOnly ? 'toggle-on' : 'toggle-off');
+    // Password Toggle Functionality
+    setupPasswordToggle(elements.togglePasswordBtn, elements.passwordInput, elements.eyeIcon, "password");
+    setupPasswordToggle(elements.togglePasswordBtn, elements.registerPasswordInput, elements.eyeIconPassword, "password");
+    setupPasswordToggle(elements.toggleConfirmPasswordBtn, elements.confirmPasswordInput, elements.eyeIconConfirm, "confirm password");
 
-            setTimeout(() => {
-                showWishedOnly = !showWishedOnly;
-                wishedProductsBtn.classList.toggle('active', showWishedOnly);
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-                filterProducts(searchTerm, showWishedOnly);
-
-                wishedProductsBtn.classList.remove('toggle-on', 'toggle-off');
-            }, 300);
-        });
-    }
-
-    document.querySelectorAll("a").forEach(link => {
-        link.addEventListener("click", function (e) {
+    // Account Button Animation
+    if (elements.accountBtn) {
+        elements.accountBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const href = this.getAttribute("href");
+            animateTransition("account.html");
+        });
+    }
 
-            if (loginBox) {
-                loginBox.classList.remove("fly-in");
-                loginBox.classList.add("fly-out");
-            }
-            if (registerBox) {
-                registerBox.classList.remove("fly-in");
-                registerBox.classList.add("fly-out");
-            }
+    // User-specific UI
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        updateAvatarDisplay(user);
+        if (user.prefix === "admin" && elements.addProductBtn) {
+            elements.addProductBtn.style.display = "flex";
+        }
+    }
 
-            setTimeout(() => {
-                window.location.href = href;
-            }, 700);
+    // Initial Loads
+    if (document.getElementById("account-username")) loadAccount();
+    checkSession();
+    loadProducts();
+
+    // Link Animation
+    document.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", (e) => {
+            e.preventDefault();
+            const href = link.getAttribute("href");
+            [elements.loginBox, elements.registerBox].forEach(box => {
+                if (box) {
+                    box.classList.remove("fly-in");
+                    box.classList.add("fly-out");
+                }
+            });
+            setTimeout(() => window.location.href = href, 700);
         });
     });
-});
+
+    // Update account avatar
+    if (user && document.getElementById("account-avatar")) {
+        const avatarImg = document.getElementById("account-avatar");
+        avatarImg.src = user.avatar ? `/avatars/${user.avatar}` : "./ico/user/white/white-user-40px.png";
+    }
+}
+
+function setupPasswordToggle(btn, input, icon, type) {
+    if (btn && input && icon) {
+        btn.addEventListener("click", () => {
+            const isVisible = input.type === "text";
+            input.type = isVisible ? "password" : "text";
+            icon.src = isVisible
+                ? "./ico/eye/cat-white/cat-closed-eye-32px.png"
+                : "./ico/eye/cat-white/cat-open-eye-32px.png";
+            icon.alt = isVisible ? `Show ${type}` : `Hide ${type}`;
+        });
+    }
+}
+
+function animateTransition(href) {
+    const elements = {
+        products: document.querySelectorAll('.product-card'),
+        wishedProductsBtn: document.querySelector('.wished-products-btn'),
+        addProductBtn: document.querySelector('.add-product-btn'),
+        basketBtn: document.querySelector('.basket-btn'),
+        accountBtn: document.querySelector('.account-btn'),
+        tab: document.querySelector('.tab')
+    };
+
+    if (elements.products.length > 0) {
+        elements.products.forEach((product, index) => {
+            setTimeout(() => {
+                product.style.opacity = '0';
+                product.style.transform = 'scale(0.8)';
+            }, (elements.products.length - 1 - index) * 100);
+        });
+    }
+
+    const timeouts = [
+        { element: elements.wishedProductsBtn, delay: elements.products.length * 100 },
+        { element: elements.addProductBtn, delay: elements.products.length * 100 + 100 },
+        { element: elements.basketBtn, delay: elements.products.length * 100 + 200 },
+        { element: elements.accountBtn, delay: elements.products.length * 100 + 300 }
+    ];
+
+    timeouts.forEach(({ element, delay }) => {
+        if (element) {
+            setTimeout(() => {
+                element.style.transform = 'translateY(-50px)';
+                element.style.opacity = '0';
+            }, delay);
+        }
+    });
+
+    setTimeout(() => {
+        if (elements.tab) elements.tab.classList.add('hidden');
+    }, elements.products.length * 100 + 400);
+
+    setTimeout(() => window.location.href = href, elements.products.length * 100 + 500);
+}
+
+function updateAvatarDisplay(user) {
+    document.querySelectorAll('img.account-avatar').forEach(img => {
+        img.src = user.avatar && user.avatar.trim() !== ""
+            ? `/avatars/${user.avatar}`
+            : "./ico/user/white/white-user-512px.png";
+    });
+}
+
+async function saveProduct(event) {
+    event.preventDefault();
+    const elements = {
+        title: document.getElementById("product-title").value,
+        description: document.getElementById("product-description").value,
+        price: parseFloat(document.getElementById("product-price").value),
+        stock: parseInt(document.getElementById("product-stock").value),
+        coverInput: document.getElementById("product-cover"),
+        editId: document.getElementById("product-form").dataset.editId
+    };
+    const user = JSON.parse(localStorage.getItem("user"));
+
+    let coverFileName = "";
+    if (elements.coverInput.files[0]) {
+        const formData = new FormData();
+        formData.append("cover", elements.coverInput.files[0]);
+        formData.append("title", elements.title);
+
+        try {
+            const response = await fetch("/api/upload-cover", {
+                method: "POST",
+                body: formData
+            });
+            if (!response.ok) throw new Error(`Upload cover failed: ${response.status}`);
+            const data = await response.json();
+            if (!data.success) throw new Error(data.message || "Ошибка загрузки обложки");
+            coverFileName = data.filename;
+        } catch (err) {
+            alert("Ошибка загрузки обложки: " + err.message);
+            return;
+        }
+    }
+
+    const productData = {
+        title: elements.title,
+        description: elements.description,
+        cover: coverFileName,
+        price: elements.price,
+        stock: elements.stock,
+        createdBy: user.username,
+        wishedBy: []
+    };
+
+    try {
+        const response = await fetch(elements.editId ? `/api/products/${elements.editId}` : "/api/products", {
+            method: elements.editId ? "PUT" : "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(productData)
+        });
+        if (!response.ok) throw new Error(`${elements.editId ? 'Edit' : 'Create'} product failed: ${response.status}`);
+        loadProducts();
+        document.getElementById("product-modal").style.display = "none";
+    } catch (err) {
+        alert("Ошибка сохранения товара: " + err.message);
+    }
+}
+
+function toggleWishedProducts() {
+    const btn = document.getElementById('wished-products-btn');
+    btn.classList.remove(showWishedOnly ? 'toggle-off' : 'toggle-on');
+    btn.classList.add(showWishedOnly ? 'toggle-on' : 'toggle-off');
+
+    setTimeout(() => {
+        showWishedOnly = !showWishedOnly;
+        btn.classList.toggle('active', showWishedOnly);
+        const searchTerm = document.getElementById('search-input')?.value.toLowerCase() || '';
+        filterProducts(searchTerm, showWishedOnly);
+        btn.classList.remove('toggle-on', 'toggle-off');
+    }, 300);
+}
 
 function filterProducts(searchTerm, showWishedOnly) {
     const productsGrid = document.getElementById("products-grid");
     const user = JSON.parse(localStorage.getItem("user"));
-    const username = user ? user.username : null;
+    const username = user?.username;
 
     const filteredProducts = allProducts.filter(product => {
         const matchesSearch = product.title.toLowerCase().includes(searchTerm);
@@ -312,8 +272,7 @@ function filterProducts(searchTerm, showWishedOnly) {
         return matchesSearch && (!showWishedOnly || isWished);
     });
 
-    const productCards = productsGrid.querySelectorAll('.product-card');
-    productCards.forEach(card => {
+    productsGrid.querySelectorAll('.product-card').forEach(card => {
         card.classList.remove('visible');
         card.classList.add('hidden');
     });
@@ -326,7 +285,7 @@ function filterProducts(searchTerm, showWishedOnly) {
             productCard.dataset.id = product.id;
 
             const isWished = username && product.wishedBy.includes(username);
-            const isAdmin = user && user.prefix === "admin";
+            const isAdmin = user?.prefix === "admin";
             const isInBasket = basket.some(item => item.id === product.id);
 
             productCard.innerHTML = `
@@ -338,7 +297,7 @@ function filterProducts(searchTerm, showWishedOnly) {
                     <button class="buy-btn">Купить</button>
                     <button class="cart-btn ${isInBasket ? 'added' : ''}">${isInBasket ? 'Добавлено' : 'В корзину'}</button>
                     <button class="wish-btn ${isWished ? 'active' : ''}">
-                        <img src="${isWished ? './ico/heart/fill/white-heart-50px.png.png' : './ico/heart/no-fill/white-heart-50px.png'}" alt="Добавить в избранное">
+                        <img src="${isWished ? './ico/heart/fill/white-heart-50px.png' : './ico/heart/no-fill/white-heart-50px.png'}" alt="Добавить в избранное">
                     </button>
                     ${isAdmin ? `
                         <button class="delete-btn">Удалить</button>
@@ -348,15 +307,12 @@ function filterProducts(searchTerm, showWishedOnly) {
             `;
 
             productsGrid.appendChild(productCard);
-
-            setTimeout(() => {
-                productCard.classList.add('visible');
-            }, 50);
+            setTimeout(() => productCard.classList.add('visible'), 50);
 
             productCard.querySelector(".buy-btn").addEventListener("click", () => buyProduct(product.id));
             productCard.querySelector(".cart-btn").addEventListener("click", () => addToCart(product));
             productCard.querySelector(".wish-btn").addEventListener("click", (event) => {
-                event.preventDefault(); // Предотвращаем обновление страницы
+                event.preventDefault();
                 toggleWish(product.id);
             });
 
@@ -373,36 +329,26 @@ function filterProducts(searchTerm, showWishedOnly) {
 }
 
 function showNotification(message) {
-    let notification = document.querySelector('.notification');
-    if (!notification) {
-        notification = document.createElement('div');
-        notification.className = 'notification';
-        document.body.appendChild(notification);
-    }
+    let notification = document.querySelector('.notification') || document.createElement('div');
+    notification.className = 'notification';
     notification.textContent = message;
+    document.body.appendChild(notification);
     notification.classList.add('show');
-    setTimeout(() => {
-        notification.classList.remove('show');
-    }, 3000);
+    setTimeout(() => notification.classList.remove('show'), 3000);
 }
 
 async function loadProducts() {
     const productsGrid = document.getElementById("products-grid");
-    const user = JSON.parse(localStorage.getItem("user"));
-    const isAdmin = user && user.prefix === "admin";
-
     try {
         const response = await fetch("/api/products");
         if (!response.ok) throw new Error(`Failed to load products: ${response.status}`);
         allProducts = await response.json();
-        console.log("Loaded products from server:", allProducts); // Отладка
+        console.log("Loaded products from server:", allProducts);
+        filterProducts('', showWishedOnly);
     } catch (err) {
         console.error("Ошибка загрузки товаров:", err);
         productsGrid.innerHTML = "<p>Не удалось загрузить товары. Попробуйте позже.</p>";
-        return;
     }
-
-    filterProducts('', showWishedOnly);
 }
 
 function buyProduct(productId) {
@@ -410,8 +356,7 @@ function buyProduct(productId) {
 }
 
 async function addToCart(product) {
-    const existingItem = basket.find(item => item.id === product.id);
-    if (existingItem) {
+    if (basket.find(item => item.id === product.id)) {
         showNotification('Товар уже в корзине!');
         return;
     }
@@ -425,19 +370,21 @@ async function addToCart(product) {
     };
 
     basket.push(productData);
+    updateCartButton(product.id, true);
+    showNotification('Товар добавлен в корзину!');
+    console.log('Basket updated:', basket);
+}
 
-    const productCard = document.querySelector(`.product-card[data-id="${product.id}"]`);
+function updateCartButton(productId, added) {
+    const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
     if (productCard) {
         const cartBtn = productCard.querySelector('.cart-btn');
         if (cartBtn) {
-            cartBtn.textContent = 'Добавлено';
-            cartBtn.classList.add('added');
-            cartBtn.disabled = true;
+            cartBtn.textContent = added ? 'Добавлено' : 'В корзину';
+            cartBtn.classList.toggle('added', added);
+            cartBtn.disabled = added;
         }
     }
-
-    showNotification('Товар добавлен в корзину!');
-    console.log('Basket updated:', basket);
 }
 
 function renderBasket() {
@@ -453,7 +400,6 @@ function renderBasket() {
 
     if (basket.length === 0) {
         basketItemsContainer.innerHTML = '<p>Корзина пуста</p>';
-        total = 0;
     } else {
         basket.forEach((item, index) => {
             const basketItem = document.createElement('div');
@@ -469,20 +415,10 @@ function renderBasket() {
             `;
             basketItemsContainer.appendChild(basketItem);
 
-            const removeBtn = basketItem.querySelector('.remove-btn');
-            removeBtn.addEventListener('click', () => {
+            basketItem.querySelector('.remove-btn').addEventListener('click', () => {
                 basket.splice(index, 1);
                 renderBasket();
-
-                const productCard = document.querySelector(`.product-card[data-id="${item.id}"]`);
-                if (productCard) {
-                    const cartBtn = productCard.querySelector('.cart-btn');
-                    if (cartBtn) {
-                        cartBtn.textContent = 'В корзину';
-                        cartBtn.classList.remove('added');
-                        cartBtn.disabled = false;
-                    }
-                }
+                updateCartButton(item.id, false);
             });
 
             total += item.price;
@@ -500,25 +436,19 @@ async function toggleWish(productId) {
     }
 
     try {
-        console.log("Toggling wish for productId:", productId); // Отладка
-
-        // Получаем продукт с сервера
         const response = await fetch(`/api/products/${productId}`);
         if (!response.ok) throw new Error(`Не удалось загрузить продукт: ${response.status}`);
         const product = await response.json();
-        console.log("Product fetched from server:", product); // Отладка
 
-        // Проверяем, есть ли пользователь в списке wishedBy
         let wishedBy = product.wishedBy || [];
         const userIndex = wishedBy.indexOf(user.username);
-
         const productCard = document.querySelector(`.product-card[data-id="${productId}"]`);
         const wishBtn = productCard.querySelector('.wish-btn');
         const wishImg = wishBtn.querySelector('img');
 
         if (userIndex === -1) {
             wishedBy.push(user.username);
-            wishImg.src = './ico/heart/fill/white-heart-50px.png.png';
+            wishImg.src = './ico/heart/fill/white-heart-50px.png';
             wishBtn.classList.add('active');
             showNotification("Товар добавлен в желаемые!");
         } else {
@@ -528,7 +458,6 @@ async function toggleWish(productId) {
             showNotification("Товар удалён из желаемых!");
         }
 
-        // Обновляем продукт на сервере
         const updateResponse = await fetch(`/api/products/${productId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -537,18 +466,12 @@ async function toggleWish(productId) {
 
         if (!updateResponse.ok) throw new Error(`Не удалось обновить желаемые: ${updateResponse.status}`);
 
-        // Обновляем локальный список продуктов
         const productIndex = allProducts.findIndex(p => p.id === productId);
         if (productIndex !== -1) {
             allProducts[productIndex].wishedBy = wishedBy;
-        } else {
-            console.warn(`Продукт с ID ${productId} не найден в allProducts`);
         }
 
-        // Перерисовываем продукты
-        const searchInput = document.getElementById('search-input');
-        const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-        filterProducts(searchTerm, showWishedOnly);
+        filterProducts(document.getElementById('search-input')?.value.toLowerCase() || '', showWishedOnly);
     } catch (err) {
         showNotification("Ошибка: " + err.message);
         console.error("Ошибка в toggleWish:", err);
@@ -570,30 +493,32 @@ async function deleteProduct(productId) {
 }
 
 async function editProduct(product) {
-    const productModal = document.getElementById("product-modal");
-    const modalTitle = document.getElementById("modal-title");
-    const productForm = document.getElementById("product-form");
+    const elements = {
+        modal: document.getElementById("product-modal"),
+        title: document.getElementById("modal-title"),
+        form: document.getElementById("product-form")
+    };
 
-    modalTitle.textContent = "Редактировать товар";
+    elements.title.textContent = "Редактировать товар";
     document.getElementById("product-title").value = product.title;
     document.getElementById("product-description").value = product.description;
     document.getElementById("product-price").value = product.price;
     document.getElementById("product-stock").value = product.stock;
-    productForm.dataset.editId = product.id;
-
-    productModal.style.display = "flex";
+    elements.form.dataset.editId = product.id;
+    elements.modal.style.display = "flex";
 }
 
 async function register(event) {
     event.preventDefault();
+    const elements = {
+        email: document.getElementById("register-email").value,
+        username: document.getElementById("register-username").value,
+        password: document.getElementById("register-password").value,
+        confirmPassword: document.getElementById("register-confirm").value,
+        registerBox: document.querySelector(".register-box")
+    };
 
-    const email = document.getElementById("register-email").value;
-    const username = document.getElementById("register-username").value;
-    const password = document.getElementById("register-password").value;
-    const confirmPassword = document.getElementById("register-confirm").value;
-    const registerBox = document.querySelector(".register-box");
-
-    if (password !== confirmPassword) {
+    if (elements.password !== elements.confirmPassword) {
         alert("Пароли не совпадают!");
         return;
     }
@@ -603,33 +528,32 @@ async function register(event) {
         if (!response.ok) throw new Error(`Failed to fetch users: ${response.status}`);
         const users = await response.json();
 
-        if (users.find(user => user.username === username)) {
+        if (users.find(user => user.username === elements.username)) {
             alert("Такой ник уже занят!");
             return;
         }
 
-        const newUser = { email, username, password, avatar: "", description: "Нет описания" };
+        const newUser = { 
+            email: elements.email, 
+            username: elements.username, 
+            password: elements.password, 
+            avatar: "", 
+            description: "Нет описания" 
+        };
         const postResponse = await fetch("/api/users", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newUser)
         });
 
-        if (!postResponse.ok) {
-            const errorText = await postResponse.text();
-            throw new Error(`Failed to register: ${errorText}`);
-        }
+        if (!postResponse.ok) throw new Error(`Failed to register: ${await postResponse.text()}`);
 
         localStorage.setItem("user", JSON.stringify(newUser));
-
-        if (registerBox) {
-            registerBox.classList.remove("fly-in");
-            registerBox.classList.add("fly-up");
+        if (elements.registerBox) {
+            elements.registerBox.classList.remove("fly-in");
+            elements.registerBox.classList.add("fly-up");
         }
-
-        setTimeout(() => {
-            window.location.href = "home.html";
-        }, 700);
+        setTimeout(() => window.location.href = "home.html", 700);
     } catch (err) {
         alert("Ошибка регистрации: " + err.message);
     }
@@ -637,29 +561,25 @@ async function register(event) {
 
 async function login(event) {
     event.preventDefault();
-
-    const username = document.getElementById("login-username").value;
-    const password = document.getElementById("login-password").value;
-    const loginBox = document.querySelector(".login-box");
+    const elements = {
+        username: document.getElementById("login-username").value,
+        password: document.getElementById("login-password").value,
+        loginBox: document.querySelector(".login-box")
+    };
 
     try {
         const response = await fetch("/api/users");
         if (!response.ok) throw new Error(`Failed to fetch users: ${response.status}`);
         const users = await response.json();
-
-        const user = users.find(user => user.username === username && user.password === password);
+        const user = users.find(user => user.username === elements.username && user.password === elements.password);
 
         if (user) {
             localStorage.setItem("user", JSON.stringify(user));
-
-            if (loginBox) {
-                loginBox.classList.remove("fly-in");
-                loginBox.classList.add("fly-up");
+            if (elements.loginBox) {
+                elements.loginBox.classList.remove("fly-in");
+                elements.loginBox.classList.add("fly-up");
             }
-
-            setTimeout(() => {
-                window.location.href = "home.html";
-            }, 700);
+            setTimeout(() => window.location.href = "home.html", 700);
         } else {
             alert("Неправильный ник или пароль!");
         }
@@ -689,24 +609,16 @@ async function loadAccount() {
 
     document.getElementById("account-username").textContent = user.username;
     document.getElementById("account-email").textContent = user.email;
-
     const avatarImg = document.getElementById("account-avatar");
-    if (user.avatar) {
-        avatarImg.src = `/avatars/${user.avatar}`;
-    } else {
-        avatarImg.src = "./ico/user/white/white-user-40px.png";
-    }
+    avatarImg.src = user.avatar ? `/avatars/${user.avatar}` : "./ico/user/white/white-user-512px.png";
 }
 
 async function uploadAvatar(event) {
     const user = JSON.parse(localStorage.getItem("user"));
-    if (!user) return;
-
-    const file = event.target.files[0];
-    if (!file) return;
+    if (!user || !event.target.files[0]) return;
 
     const formData = new FormData();
-    formData.append("avatar", file);
+    formData.append("avatar", event.target.files[0]);
 
     try {
         const response = await fetch(`/api/upload-avatar?username=${encodeURIComponent(user.username)}`, {
@@ -728,13 +640,3 @@ async function uploadAvatar(event) {
         alert("Ошибка загрузки аватарки: " + err.message);
     }
 }
-
-document.addEventListener("DOMContentLoaded", function () {
-    const user = JSON.parse(localStorage.getItem("user"));
-    const avatarImg = document.getElementById("account-avatar");
-    
-    if (user && avatarImg) {
-        avatarImg.src = user.avatar ? `/avatars/${user.avatar}` : "./ico/user/white/white-user-40px.png";
-    }
-});
-
